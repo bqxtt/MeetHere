@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>PublicController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">PublicController.java</span></div><h1>PublicController.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import static org.hamcrest.CoreMatchers.nullValue;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.tcg.entity.Message;
+import com.tcg.entity.News;
+import com.tcg.entity.Site;
+import com.tcg.entity.UserInfo;
+import com.tcg.service.MessageService;
+import com.tcg.service.NewsService;
+import com.tcg.service.SiteService;
+import com.tcg.service.UserInfoService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+@Controller
+@RequestMapping(&quot;/public&quot;)
+@Api(tags = &quot;公共接口&quot;)
+<span class="fc" id="L47">public class PublicController</span>
+{
+	@Autowired
+	NewsService newsService;
+	@Autowired
+	MessageService messageService; 
+	@Autowired
+	SiteService siteService;
+	@Autowired
+	UserInfoService userInfoService;
+	
+	@ResponseBody
+	@GetMapping(value = &quot;/news&quot;)
+	@ApiOperation(value = &quot;获取新闻列表&quot;,notes = &quot;返回jsonString，包含所有新闻，其中imagePath为base64url&quot;)
+	public String news() throws IOException
+	{
+<span class="fc" id="L63">		List&lt;News&gt; news = newsService.findAllNews();</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		for(News tmpNews : news)</span>
+		{
+<span class="fc bfc" id="L66" title="All 4 branches covered.">			if(tmpNews.getImagePath() == null || tmpNews.getImagePath().equals(&quot;&quot;))</span>
+			{
+<span class="fc" id="L68">				tmpNews.setImagePath(&quot;&quot;);</span>
+<span class="fc" id="L69">				continue;</span>
+			}
+<span class="fc" id="L71">			File imageFile = new File(tmpNews.getImagePath());</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">			if(imageFile.exists())</span>
+			{
+<span class="fc" id="L74">				FileInputStream fis = new FileInputStream(imageFile);</span>
+				try
+				{
+<span class="fc" id="L77">					int iAvail = fis.available();</span>
+<span class="fc" id="L78">		            byte[] bytes = new byte[iAvail];</span>
+<span class="fc" id="L79">		            fis.read(bytes);</span>
+<span class="fc" id="L80">		            tmpNews.setImagePath(new String(bytes));</span>
+<span class="fc" id="L81">				} finally</span>
+				{
+<span class="fc" id="L83">					fis.close();</span>
+				}
+
+				
+			}
+			else 
+			{
+<span class="fc" id="L90">				tmpNews.setImagePath(&quot;&quot;);</span>
+			}
+		}
+		
+<span class="fc" id="L94">		return JSON.toJSONString(news);</span>
+	}
+	
+	@GetMapping(value = &quot;/news/{newsId}&quot;)
+	@ApiOperation(value = &quot;获取新闻内容&quot;,notes = &quot;直接返回页面&quot;)
+	public String newsId(@PathVariable(&quot;newsId&quot;) int newsId,Model model) throws IOException
+	{
+<span class="fc" id="L101">		News news = newsService.findNewsById(newsId);</span>
+<span class="fc bfc" id="L102" title="All 4 branches covered.">		if(news.getImagePath() == null || news.getImagePath().equals(&quot;&quot;))</span>
+		{
+<span class="fc" id="L104">			news.setImagePath(&quot;&quot;);</span>
+		}
+<span class="fc" id="L106">		File imageFile = new File(news.getImagePath());</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		if(imageFile.exists())</span>
+		{
+<span class="fc" id="L109">			FileInputStream fis = new FileInputStream(imageFile);</span>
+			try
+			{
+<span class="fc" id="L112">				int iAvail = fis.available();</span>
+<span class="fc" id="L113">	            byte[] bytes = new byte[iAvail];</span>
+<span class="fc" id="L114">	            fis.read(bytes);</span>
+<span class="fc" id="L115">	            news.setImagePath(new String(bytes));</span>
+<span class="fc" id="L116">			} finally</span>
+			{
+<span class="fc" id="L118">				fis.close();</span>
+			}
+
+			
+		}
+		else 
+		{
+<span class="fc" id="L125">			news.setImagePath(&quot;&quot;);</span>
+		}
+		
+<span class="fc" id="L128">		model.addAttribute(&quot;news&quot;,news);</span>
+		
+<span class="fc" id="L130">		return &quot;newsId&quot;;</span>
+	}
+	
+	
+	
+	@ResponseBody
+	@GetMapping(&quot;/messages&quot;)
+	@ApiOperation(value = &quot;获取留言列表&quot;,notes = &quot;返回JsonString，包含所有根留言&quot;)
+	public String messages()
+	{
+<span class="fc" id="L140">		List&lt;Message&gt; messages = messageService.findMessagesByParentId(0);</span>
+<span class="fc" id="L141">		return JSON.toJSONString(messages);</span>
+	}
+	
+	@ResponseBody
+	@GetMapping(&quot;/messages/{parentId}&quot;)
+	@ApiOperation(value = &quot;获取回复留言列表&quot;,notes = &quot;返回JsonString，包含所有回复留言&quot;)
+	public String messagesReply(@PathVariable(&quot;parentId&quot;) int parentId)
+	{
+<span class="fc" id="L149">		List&lt;Message&gt; messages = messageService.findMessagesByParentId(parentId);</span>
+<span class="fc" id="L150">		return JSON.toJSONString(messages);</span>
+	}
+	
+	@ResponseBody
+	@GetMapping(&quot;/sites&quot;)
+	@ApiOperation(value = &quot;获取场馆列表&quot;,notes = &quot;返回JsonString，包含所有场馆，其中imagePath为base64url&quot;)
+	public String sites() throws IOException
+	{
+<span class="fc" id="L158">		List&lt;Site&gt; sites = siteService.findAllSites();</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">		for(Site site : sites)</span>
+		{
+<span class="fc bfc" id="L161" title="All 4 branches covered.">			if(site.getImagePath() == null || site.getImagePath().equals(&quot;&quot;))</span>
+			{
+<span class="fc" id="L163">				continue;</span>
+			}
+<span class="fc" id="L165">			File imageFile = new File(site.getImagePath());</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">			if(imageFile.exists())</span>
+			{
+<span class="fc" id="L168">				FileInputStream fis = new FileInputStream(imageFile);</span>
+				try
+				{
+<span class="fc" id="L171">		            int iAvail = fis.available();</span>
+<span class="fc" id="L172">		            byte[] bytes = new byte[iAvail];</span>
+<span class="fc" id="L173">		            fis.read(bytes);</span>
+<span class="fc" id="L174">		            site.setImagePath(new String(bytes));					</span>
+<span class="fc" id="L175">				} finally</span>
+				{
+<span class="fc" id="L177">					fis.close();</span>
+				}
+
+				
+			}
+			else 
+			{
+<span class="fc" id="L184">				site.setImagePath(&quot;&quot;);</span>
+			}
+		}
+		
+<span class="fc" id="L188">		return JSON.toJSONString(sites);</span>
+	}
+	
+	@GetMapping(&quot;/login&quot;)
+	@ApiOperation(value = &quot;登录界面&quot;,notes = &quot;login.html将登录数据（username，password）发送至/login即可，失败重定向至/login?error&quot;)
+	public String login()
+	{
+<span class="fc" id="L195">		return &quot;login&quot;;</span>
+	}
+	
+	@GetMapping(&quot;/reg&quot;)
+	public String reg()
+	{
+<span class="fc" id="L201">		return &quot;register&quot;;</span>
+	}
+	
+	
+	
+	@ResponseBody
+	@PostMapping(&quot;/register&quot;)
+	@ApiOperation(value = &quot;注册用户&quot;,notes = &quot;返回String，成功success，失败fail&quot;)
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = &quot;username&quot;,required = true,paramType = &quot;query&quot;),
+			@ApiImplicitParam(name = &quot;password&quot;,required = true,paramType = &quot;query&quot;),
+			@ApiImplicitParam(name = &quot;email&quot;,required = true,paramType = &quot;query&quot;),
+			@ApiImplicitParam(name = &quot;telephone&quot;,required = true,paramType = &quot;query&quot;)
+	})
+	public String register(
+			@RequestParam(&quot;username&quot;) String username,
+			@RequestParam(&quot;password&quot;) String password,
+			@RequestParam(&quot;email&quot;) String email,
+			@RequestParam(&quot;telephone&quot;) String telephone
+	)
+	{
+<span class="fc" id="L222">		UserInfo userInfo = new UserInfo();</span>
+<span class="fc" id="L223">		userInfo.setUsername(username);</span>
+<span class="fc" id="L224">		password = new BCryptPasswordEncoder().encode(password);</span>
+<span class="fc" id="L225">		userInfo.setPassword(password);</span>
+<span class="fc" id="L226">		userInfo.setRoles(&quot;ROLE_USER&quot;);</span>
+<span class="fc" id="L227">		userInfo.setEmail(email);</span>
+<span class="fc" id="L228">		userInfo.setTelephone(telephone);</span>
+		
+		
+<span class="fc" id="L231">		int t = userInfoService.insertUser(userInfo);</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L234">			return &quot;success&quot;;</span>
+		}
+		else 
+		{
+<span class="fc" id="L238">			return &quot;fail&quot;;</span>
+		}
+	}
+	
+	@RequestMapping(value = &quot;/{html}&quot;,method = {RequestMethod.POST,RequestMethod.GET})
+	public String redirect(@PathVariable(&quot;html&quot;) String html)
+	{
+<span class="fc" id="L245">		return html;</span>
+	}
+	
+	
+	
+	@GetMapping(&quot;/&quot;)
+	public String index()
+	{
+<span class="fc" id="L253">		return &quot;index&quot;;</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

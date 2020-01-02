@@ -1,0 +1,88 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+a{
+	text-decoration: none;
+}
+
+li{
+	list-style: none;
+}
+
+.reserve{
+	width: 422px;
+	height:339px;
+	position: absolute;
+	left:200px;
+	top:230px;
+	margin:auto;
+}
+
+.login{
+	width: 422px;
+	height: 339px;
+	background: #fff;
+	margin-top: 34px;
+	margin-left: 50px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+}
+
+.title{
+	width: 366px;
+	height: 60px;
+	margin: 0 28px;
+	border-bottom: 1px solid #efefef;
+	font-family:cursive;
+	font-size: 40px;
+	font-weight: bolder;
+}
+
+.userInp,
+.pwdInp,
+.emailInp,
+.telInp
+{
+	width: 320px;
+	height: 25px;
+	margin-top: 18px;
+	border: none;
+	outline: none;
+	margin-left: 20px;
+}
+
+
+.username,
+.pwd,
+.email,
+.tel
+{
+	width: 366px;
+	height: 60px;
+	border-bottom: 1px solid #efefef;
+	margin: 0 28px;
+}
+
+.btn{
+	width: 364px;
+	height: 40px;
+	background: #4892ff;
+	border: 1px solid #326dcc;
+	color: #fff;
+	font-size: 16px;
+	margin-left: 30px;
+}
+
+.rgs{
+	width: 364px;
+	height: 40px;
+	border: 1px solid #326dcc;
+	font-size: 16px;
+	margin-left: 30px;
+}

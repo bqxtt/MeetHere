@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SystemController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">SystemController.java</span></div><h1>SystemController.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import static org.hamcrest.CoreMatchers.nullValue;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tcg.entity.UserInfo;
+import com.tcg.service.UserInfoService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+
+@RestController
+@Api(tags = &quot;系统接口&quot;)
+<span class="fc" id="L31">public class SystemController</span>
+{
+	@Autowired
+	UserInfoService userInfoService;
+	
+	@GetMapping(&quot;/system/userId&quot;)
+	@ApiOperation(value = &quot;获取当前登录用户ID&quot;,notes = &quot;未登录返回0&quot;)
+	public int userId()
+	{
+<span class="fc" id="L40">		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="fc" id="L41">		 String username = auth.getName();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		 boolean isLogin = !(auth instanceof AnonymousAuthenticationToken);</span>
+
+<span class="fc" id="L44">		 UserInfo userInfo = userInfoService.findUserByUsername(username);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		 if(!isLogin)</span>
+		 {
+<span class="fc" id="L47">			 return 0;</span>
+		 }
+		 else 
+		 {
+<span class="fc" id="L51">			 return userInfo.getUserId();</span>
+		 }
+	}
+	
+	@GetMapping(&quot;/system/username&quot;)
+	@ApiOperation(value = &quot;获取当前登录用户名&quot;,notes = &quot;未登录返回空串&quot;)
+	public String userName()
+	{
+<span class="fc" id="L59">		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="fc" id="L60">		 String username = auth.getName();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		 boolean isLogin = !(auth instanceof AnonymousAuthenticationToken);</span>
+		 
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		 if(!isLogin)</span>
+		 {
+<span class="fc" id="L65">			 return &quot;&quot;;</span>
+		 }
+		 else
+		 {
+<span class="fc" id="L69">			 return username;</span>
+		 }
+	}
+	
+	@GetMapping(&quot;/system/authentication&quot;)
+	@ApiOperation(value = &quot;获取当前登录用户权限&quot;,notes = &quot;未登录返回0,普通用户返回1，管理员返回2&quot;)
+	public int userAuthentication()
+	{
+<span class="fc" id="L77">		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		 boolean isLogin = !(auth instanceof AnonymousAuthenticationToken);</span>
+		 
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		 if(!isLogin)</span>
+		 {
+<span class="fc" id="L82">			 return 0;</span>
+		 }
+		 else 
+		 {
+<span class="fc" id="L86">			 Collection&lt;? extends GrantedAuthority&gt; authorities = auth.getAuthorities();</span>
+<span class="fc" id="L87">			 String role = authorities.iterator().next().toString();</span>
+<span class="fc" id="L88">			 String roleName = &quot;ROLE_ADMIN&quot;;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			 if(roleName.equals(role))</span>
+			 {
+<span class="fc" id="L91">				 return 2;</span>
+			 }
+			 else 
+			 {
+<span class="fc" id="L95">				 return 1;</span>
+			 }
+		 }
+	}
+	@GetMapping(&quot;/system/getusernamebyid/{userId}&quot;)
+	@ApiOperation(value = &quot;通过Id获取用户名&quot;)
+	public String getUsername(@PathVariable(&quot;userId&quot;) int userId)
+	{
+<span class="nc" id="L103">		UserInfo userInfo = userInfoService.findUserById(userId);</span>
+<span class="nc" id="L104">		return userInfo.getUsername();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

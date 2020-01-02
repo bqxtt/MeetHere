@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>发布新闻</title>
+	
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/common.css">
+	
+    <script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/user.js"></script>
+    
+   
+    <style>
+        #inputArea {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+<header>
+		<div class="logo">
+			<h1 class="vertical-center">MeetHere场馆预约管理系统</h1>
+		</div>
+		<div class="logoff">
+            <a href="/public/login"><span><em class="username"></em>（<em class="usernum">登录</em>）</span></a>
+            <a href="/logout" id="logout"><img src="/images/out.png" alt="注销登录"></a>
+		</div>
+	</header>
+
+    <div id="inputArea">
+    <hr>
+ <h1>发布新闻</h1>
+        
+
+        <div>
+            <p>标题：</p>
+            <input id="title" type="text" style="width:260px;" placeholder="新闻标题,上限25字符。。。" required />
+            <p id="titleMsg"> </p>
+        </div>
+
+        <div>
+            <p>内容：</p>
+            <textarea id="content" placeholder="新闻内容,上限1000字符。。。" rows="20" cols="100"></textarea>
+            <p id="contentMsg"> </p>
+        </div>
+
+        <div>
+             <input type="file" name="" id="chooseImage" accept=".jpg,.jpeg,.png">
+                <img id="showImg" width="200" height="200" src="/images/3994459534-5c3185f0b6e3c.png">
+        </div>
+
+        <div>
+            <button onclick="submit()"  style="width:80px; height:25px; position:relative; top: 20px;">提交</button>
+            <br /><br /><br />
+
+            <button onclick="shownews()" style="width:80px; height:25px">浏览新闻</button>
+        </div>
+    </div>
+
+
+    <script>
+       var imagePath = "";
+         
+		$('#chooseImage').on('change',function(e){
+		      // 检查是否是图片
+		      var filePath = $(this).val(),
+		      fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();//获取文件后缀名
+		      //检查后缀名
+		      if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+		            showError('文件格式必须为：png/jpg/jpeg');//showError是另外写的一个显示错误信息的function
+		            return;  
+		      }
+		
+		      //获取并记录图片的base64编码
+		      var reader = new FileReader();
+		      reader.readAsDataURL(e.target.files[0]); // 读出 base64
+		      reader.onloadend = function () {
+		            // 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
+		           var dataURL = reader.result;//base64
+		           // 显示图片
+		           $('#showImg').attr('src',dataURL);
+				   //alert($('#showImg').attr('src'));
+				   alert("上传成功");
+				   imagePath = $('#showImg').attr('src');
+		      };
+		});
+		
+		
+        function submit()
+        {
+        	
+			
+			var flag = false;
+        	var title=$("#title").val();
+        	var content=$("#content").val();
+			
+			
+        	//var image=$("#image").val();
+        	var d=new Date()
+        	var day = d.getDate()
+        	var month=d.getMonth() + 1
+        	var year=d.getFullYear()
+        	var hour = d.getHours()
+        	var minute = d.getMinutes() + 1
+        	var second = d.getSeconds() + 1
+        	var releaseTime = year.toString() + "-" + month.toString() + "-" + day.toString() + " " + hour.toString() + ":" + minute.toString() + ":" + second.toString()
+
+        	
+        	if($.trim(title) == ""){  
+       		 $("#titleMsg").html("<font color='red'>title不能为空！</font>");  
+       		 $("#title").focus();  
+       		$("#titleMsg").show();
+       		 return false; 
+       	     }
+        	else if(title.length>25){
+        		 $("#titleMsg").html("<font color='red'>title字符数超了！</font>");  
+           		 $("#title").focus();  
+           		$("#titleMsg").show();
+           		 return false; 
+        	}
+        		
+       		else
+       			$("#titleMsg").hide();
+       		
+       		
+       		
+       		 if($.trim(content)==""){  
+       			   $("#contentMsg").html("<font color='red'>content不能为空！</font>");  
+       			   $("#content").focus();  
+       			$("#contentMsg").show();
+       			   return false; 
+       			  }  
+       		 else if(content.length>1000){
+       			 $("#contentMsg").html("<font color='red'>content字符数超了！</font>");  
+     			   $("#content").focus();  
+     			  $("#contentMsg").show();
+     			   return false;
+       		 }
+       			  else
+             			$("#contentMsg").hide();
+       		 
+       		 
+       		 
+			 
+       		//var imagePath = $('#showImg').attr('src');
+            /*
+            if (!flag)
+            {
+                imagePath = ""
+            }
+            flag = false
+            //console.log(imagePath)
+            //console.log(flag)
+            
+            var imagePath = $("#img").attr("src");
+            
+            alert(title);
+            */
+            
+			/*
+            var title = "test0";
+            var content = "test00";
+            var imagePath = "";
+            var releaseTime = "2019-12-24 11:11:11";
+            */
+            
+            //var imagePath = "";
+            
+            $.post(
+                "/admin/news/add",
+                {
+                    title:title,
+                    content:content,
+                    imagePath:imagePath,
+                    releaseTime:releaseTime,
+                },
+                function(data)
+                {
+                	//alert(title);
+                	if(data == "success")
+                    	alert("发送成功")
+                    else
+                    	alert("发送失败")
+                    window.location.reload();
+                }
+            )
+        }
+        
+
+        /*
+        function upLoadFile(file)
+        {
+            let pic = file.files[0]
+            let fileReader = new FileReader()
+            fileReader.readAsDataURL(pic)
+            fileReader.addEventListener("load", function()
+            {
+                $("#img").attr("src", fileReader.result)
+                flag = true
+            })
+            alert($("#img").attr("src"));
+        }
+
+        
+        
+        $(function()
+                {
+                    $("#img").click(
+                        function()
+                        {
+                            $("#picture").click()
+                        }
+                    )
+                })
+        */        
+                
+                
+         function shownews()
+        {
+            window.location.href = "/public/news.html"
+        }
+
+    </script>
+</body>
+
+
+</html>

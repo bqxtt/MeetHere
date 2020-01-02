@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻详情</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/newsMain.css">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/common.css">
+</head>
+
+
+<body text-align="center">
+	<header>
+		<div class="logo">
+			<h1 class="vertical-center" >MeetHere场馆预约管理系统</h1>
+		</div>
+		<div class="logoff">
+            <a href="/public/login"><span><em class="username"></em>（<em class="usernum">登录</em>）</span></a>
+            <a href="/logout" id="logout"><img src="/images/out.png" alt="注销登录"></a>
+		</div>
+	</header>
+	<div class="myContainer" style="margin:20px auto">
+		<nav class="nav-list">
+			<a href="/public/index.html" class="nav-item" id="nav-item1">
+				<span class="iconfont">&#xe63e;</span>
+				<span class="item-info">主页</span>
+			</a>
+			<a href="/user/reservation.html" class="nav-item" id="nav-item2">
+				<span class="iconfont">&#xe604;</span>
+				<span class="item-info">预约场地</span>
+			</a>
+			<a href="/public/message.html" class="nav-item" id="nav-item3">
+				<span class="iconfont">&#xe601;</span>
+				<span class="item-info">留言</span>
+			</a>
+			<a href="/public/news.html" class="nav-item" id="nav-item4">
+				<span class="iconfont">&#xe64a;</span>
+				<span class="item-info">新闻</span>
+			</a>
+			<a href="/public/room_info.html" class="nav-item" id="nav-item5">
+				<span class="iconfont">&#xe751;</span>
+				<span class="item-info">场馆信息</span>
+			</a>
+
+			<span class="triangle" style="left:460px;"></span>
+		</nav>
+	</div>
+	
+	
+	
+	
+<div class="container" >
+	<div class="col-sm-2"></div>
+	
+    <div class="col-xs-8" >
+        <h1 id="tit" class="news-title" th:text = "${news.title}"></h1>
+		
+		
+		
+        <div id="rl" class="news-status" th:text = "${news.releaseTime}">
+        </div>
+		
+        <div class="news-content" id="jj">
+            <img id="imm" th:if = "${news.imagePath} != ''" th:src = "${news.imagePath}" class = "newsImg">
+            
+		    <div id="con" th:text = "${news.content}">
+            </div>
+        </div>
+		
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.js"></script>
+
+<script>
+	$.get(
+	            "/system/username",
+	            function(data){
+	                userName = data;
+	            $(".username").text(data);
+	            $("#myName").append(userName);
+	            });
+	     
+		 
+	$.get(
+            "/system/authentication",
+            function(data){
+            	if(data == 1){
+            		$(".usernum").text("用户");
+            	}
+            	else if(data == 2){
+            		$(".usernum").text("管理员");
+            	}
+            }
+            );	 
+	
+	
+	        $.get(
+	            "/system/userId",
+	            function(data){
+	                userId = data;
+	            
+	            $("#myId").append(userId);
+	            }
+	            );
+
+	
+	$.ajaxSettings.async = false;
+	var userRole;
+	    $.get(
+	        "/system/authentication",
+	        function(data){
+	            userRole=data;
+	        }
+	        ); 
+
+	//alert(userRole);		
+	
+	var editbutton = document.createElement("input");
+	editbutton.type = "button";
+	editbutton.value = " 编辑 ";
+	editbutton.style= "position:relative; top:20px";
+	
+	var deletebutton = document.createElement("input");
+	deletebutton.type = "button";
+	deletebutton.value = " 删除 ";
+	deletebutton.style= "position:relative; top:20px";
+	
+	var subbutton = document.createElement("input");
+	subbutton.type = "button";
+	subbutton.value = " 前往发布新闻 ";
+	subbutton.style= "position:relative; top:20px";
+	
+	
+	editbutton.addEventListener("click", editit);
+	deletebutton.addEventListener("click", deleteit);
+	subbutton.addEventListener("click", sub);
+	
+	var a = document.getElementById("jj");
+	a.appendChild(editbutton);
+	a.appendChild(deletebutton);
+	a.appendChild(subbutton);
+	
+	
+	if(userRole != 2)
+	{
+		$(editbutton).hide();
+		$(deletebutton).hide();
+		$(subbutton).hide();
+	}
+	
+	if(userRole == 2)
+	{
+		$(editbutton).show();
+		$(deletebutton).show();
+		$(subbutton).show();
+	}
+	$.ajaxSettings.async = true;	
+	
+	
+	
+	function deleteit()
+	        {
+			    var dangqian = window.location.href;
+				var urlStr = dangqian.match('[^/]+(?!.*/)')[0];	
+				
+                //alert("我要删掉喽！" + urlStr);
+                alert("我要删掉喽！");
+
+	            $.ajax({
+	                type : 'delete',
+	                //data : JSON.stringify(recordInfo),
+	                url : "/admin/news/delete/" + urlStr,
+	                //contentType : 'application/json;charset=UTF-8',
+	                //dataType : 'json',
+	                success : function(data){
+	                    if(data == "success")
+	                    	{
+	                    	alert("删除成功");
+	                    	window.location.href = "/public/news.html";
+	                    	}
+	                        
+	                    else
+	                        alert("删除失败")
+	                    //window.location.reload();
+	                    }
+	                }
+	            );
+	            
+	            
+	            //this.parentNode.remove();
+	        }
+			
+			
+			
+			function editit()
+					{
+					    var edit = document.createElement("textarea");
+						//edit.type = "text";
+						edit.value = document.getElementById("con").innerHTML;
+						edit.rows="10";
+						edit.cols="100";
+						edit.style= "position:relative; top:25px";
+						this.parentNode.appendChild(edit);
+						
+						var finishbutton = document.createElement("input");
+						finishbutton.type = "button";
+						finishbutton.value = "完成";
+						finishbutton.style= "position:relative; top:25px";
+						this.parentNode.appendChild(finishbutton);
+						finishbutton.addEventListener("click", finishit);
+						
+						//this.parentNode.getElementsByTagName("h3")[0].remove();
+						//this.parentNode.getElementsByTagName("h4")[0].remove();
+						//this.parentNode.getElementsByTagName("p")[0].style.display="none";
+						this.parentNode.getElementsByTagName("input")[0].remove();
+						//this.parentNode.removeChild(this.parentNode.childNodes[3]);
+						
+						//this.parentNode.appendChild(edit);
+						//var x = this.parentNode.getElementsByTagName("h4");
+						//alert("我要删掉喽！" + this.parentNode.getElementsByTagName("h4")[0].innerHTML);
+						//this.parentNode.remove();
+					}
+					
+					
+					
+					function finishit()
+					{
+						
+						//this.parentNode.getElementsByTagName("p")[0].innerHTML = this.parentNode.getElementsByTagName("textarea")[0].value;
+						//this.parentNode.getElementsByTagName("p")[0].style.display="block";
+						
+						//var title = "test0";
+						//var content = "test00";
+						//var imagePath = "";
+						//var releaseTime = "1111-11-11 11:11:11";
+						var dangqian = window.location.href;
+						var urlStr = dangqian.match('[^/]+(?!.*/)')[0];
+						
+						
+						var title = document.getElementById("tit").innerHTML;
+						var content = this.parentNode.getElementsByTagName("textarea")[0].value;
+              
+						if($.trim(content)==""){
+							alert("新闻内容为空！");
+							return false;
+						}
+						if(content.length>1000){
+							alert("新闻字符数超过1000！");
+			     			   return false;
+			       		 }
+						var releaseTime = document.getElementById("rl").innerHTML;
+						//var imagePath = document.getElementById("imm").src;
+						if(document.getElementById("imm") != null)
+							var imagePath = document.getElementById("imm").src;	
+						else
+							var imagePath = "";
+						
+						
+						//alert("我要改掉喽！" + urlStr);
+						alert("我要改掉喽！");
+						
+				
+						
+						
+						$.post(
+						    "/admin/news/update/" + urlStr,
+						    {
+						        title:title,
+						        content:content,
+						        imagePath:imagePath,
+						        releaseTime:releaseTime
+						    },
+						    function(data)
+						    {
+						    	if(data == "success")
+						        	alert("发送成功")
+						        else
+						        	alert("发送失败")
+						        window.location.reload();
+						    }
+						)
+						
+						//this.parentNode.getElementsByTagName("input")[1].remove();
+						//this.parentNode.getElementsByTagName("input")[1].remove();
+					}
+					
+					
+			function sub()
+			{
+				window.location.href = "/admin/submitnews.html"
+			}
+					
+			
+	
+</script>
+   
+</body>
+</html>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.tcg.entity.Message;
+import com.tcg.entity.Order;
+import com.tcg.entity.UserInfo;
+import com.tcg.service.MessageService;
+import com.tcg.service.OrderService;
+import com.tcg.service.UserInfoService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+
+@Controller
+@RequestMapping(&quot;/user&quot;)
+@Api(tags = &quot;用户接口&quot;)
+<span class="fc" id="L41">public class UserController</span>
+{
+<span class="fc" id="L43">	private static String success = &quot;success&quot;;</span>
+<span class="fc" id="L44">	private static String fail = &quot;fail&quot;;</span>
+	@Autowired
+	UserInfoService userInfoService;
+	@Autowired
+	MessageService messageService;
+	@Autowired
+	OrderService orderService;
+	
+	@ResponseBody
+	@GetMapping(&quot;/center/{username}&quot;)
+	@ApiOperation(value = &quot;用户个人中心&quot;,notes = &quot;路径方式传值{username}&quot;)
+	public String center(@PathVariable(&quot;username&quot;) String username)
+	{
+<span class="fc" id="L57">		UserInfo userInfo = userInfoService.findUserByUsername(username);</span>
+		
+<span class="fc" id="L59">		return JSON.toJSONString(userInfo);</span>
+	}
+	
+	@ResponseBody
+	@PostMapping(&quot;/center/update/{username}&quot;)
+	@ApiOperation(value = &quot;更新个人信息&quot;,notes = &quot;路径方式传值{username}&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;email&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;telephone&quot;,required = true,paramType = &quot;query&quot;)
+	})
+	public String centerUpdate(
+			@PathVariable(&quot;username&quot;) String username,
+			@RequestParam(&quot;email&quot;) String email,
+			@RequestParam(&quot;telephone&quot;) String telephone
+	)
+	{
+<span class="fc" id="L75">		UserInfo userInfo = userInfoService.findUserByUsername(username);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		if(userInfo == null)</span>
+		{
+<span class="fc" id="L78">			return &quot;fail&quot;;</span>
+		}
+<span class="fc" id="L80">		userInfo.setEmail(email);</span>
+<span class="fc" id="L81">		userInfo.setTelephone(telephone);</span>
+<span class="fc" id="L82">		int t = userInfoService.updateUserInfoById(userInfo);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L85">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L89">			return fail;</span>
+		}
+	}
+	
+	@ResponseBody
+	@GetMapping(&quot;/orders/username/{username}&quot;)
+	@ApiOperation(value = &quot;获取当前用户订单&quot;,notes = &quot;路径传值{username}&quot;)
+	public String orders(@PathVariable(&quot;username&quot;) String username)
+	{
+<span class="fc" id="L98">		int userId = userInfoService.findUserByUsername(username).getUserId();</span>
+		
+<span class="fc" id="L100">		List&lt;Order&gt; orders = orderService.findOrderByUserId(userId);</span>
+		
+<span class="fc" id="L102">		return JSON.toJSONString(orders);</span>
+	}
+	
+	@ResponseBody
+	@GetMapping(&quot;/orders/siteId/{siteId}&quot;)
+	@ApiOperation(value = &quot;获取场馆订单&quot;,notes = &quot;路径传值{siteId}&quot;)
+	public String orderSite(@PathVariable(&quot;siteId&quot;) int siteId)
+	{
+<span class="fc" id="L110">		List&lt;Order&gt; orders = orderService.findOrderBySiteId(siteId);</span>
+		
+<span class="fc" id="L112">		return JSON.toJSONString(orders);</span>
+	}
+	
+	@ResponseBody
+	@PostMapping(&quot;/orders/update/{orderId}&quot;)
+	@ApiOperation(value = &quot;更新订单信息&quot;,
+				  notes = &quot;只能更改时间及状态，路径传值{orderId}&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;startTime&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;endTime&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;state&quot;,required = true,paramType = &quot;query&quot;)
+	})
+	public String ordersUpdate(
+			@PathVariable(&quot;orderId&quot;) int orderId,
+			@RequestParam(&quot;startTime&quot;) String startTime,
+			@RequestParam(&quot;endTime&quot;) String endTime,
+			@RequestParam(&quot;state&quot;) short state
+	)
+	{
+<span class="fc" id="L131">		Order order = orderService.findOrderById(orderId);</span>
+<span class="fc" id="L132">		order.setStartTime(Timestamp.valueOf(startTime));</span>
+<span class="fc" id="L133">		order.setEndTime(Timestamp.valueOf(endTime));</span>
+<span class="fc" id="L134">		order.setState(state);</span>
+		
+<span class="fc" id="L136">		int t = orderService.updateOrderById(order);</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L139">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L143">			return fail;</span>
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping(&quot;/reply&quot;)
+	@ApiOperation(value = &quot;留言&quot;,notes = &quot;回复留言，parentId为被回复的留言id；新建留言，parentId为0&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;parentId&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;Integer&quot;),
+		@ApiImplicitParam(name = &quot;userId&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;Integer&quot;),
+		@ApiImplicitParam(name = &quot;content&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;time&quot;,required = true,paramType = &quot;query&quot;)
+	})
+	public String replyMessage(
+			@RequestParam(&quot;parentId&quot;) int parentId,
+			@RequestParam(&quot;userId&quot;) int userId,
+			@RequestParam(&quot;content&quot;) String content,
+			@RequestParam(&quot;time&quot;) String time
+	)
+	{
+<span class="fc" id="L163">		Message message = new Message();</span>
+<span class="fc" id="L164">		message.setParentId(parentId);</span>
+<span class="fc" id="L165">		message.setUserId(userId);</span>
+<span class="fc" id="L166">		message.setContent(content);</span>
+<span class="fc" id="L167">		message.setTime(Timestamp.valueOf(time));</span>
+		
+<span class="fc" id="L169">		int t = messageService.insertMessage(message);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L172">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L176">			return fail;</span>
+		}
+	}
+	
+	@ResponseBody
+	@DeleteMapping(&quot;/reply/delete/{messageId}&quot;)
+	@ApiOperation(value = &quot;删除自己留言&quot;)
+
+	public String deleteMessage(@PathVariable(&quot;messageId&quot;) int messageId)
+	{
+<span class="fc" id="L186">		int t = messageService.deleteMessageById(messageId);</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L189">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L193">			return fail;</span>
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping(&quot;/reverse&quot;)
+	@ApiOperation(value = &quot;预约场馆&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;userId&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;Integer&quot;),
+		@ApiImplicitParam(name = &quot;siteId&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;Integer&quot;),
+		@ApiImplicitParam(name = &quot;startTime&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;endTime&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;state&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;short&quot;),
+	})
+	public String reserveSite(
+			@RequestParam(&quot;userId&quot;) int userId,
+			@RequestParam(&quot;siteId&quot;) int siteId,
+			@RequestParam(&quot;startTime&quot;) String startTime,
+			@RequestParam(&quot;endTime&quot;) String endTime,
+			@RequestParam(&quot;state&quot;) short state
+	)
+	{
+<span class="fc" id="L215">		Order order = new Order();</span>
+<span class="fc" id="L216">		order.setUserId(userId);</span>
+<span class="fc" id="L217">		order.setSiteId(siteId);</span>
+<span class="fc" id="L218">		order.setStartTime(Timestamp.valueOf(startTime));</span>
+<span class="fc" id="L219">		order.setEndTime(Timestamp.valueOf(endTime));</span>
+<span class="fc" id="L220">		order.setState(state);</span>
+		
+<span class="fc" id="L222">		int t = orderService.insertOrder(order);</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L225">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L229">			return fail;</span>
+		}
+	}
+	
+	@GetMapping(&quot;/{html}&quot;)
+	public String redirect(@PathVariable(&quot;html&quot;) String html)
+	{
+<span class="fc" id="L236">		return html;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

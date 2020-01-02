@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MessageServiceImpl.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.service.impl</a> &gt; <span class="el_source">MessageServiceImpl.java</span></div><h1>MessageServiceImpl.java</h1><pre class="source lang-java linenums">package com.tcg.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tcg.entity.Message;
+import com.tcg.mapper.MessageMapper;
+import com.tcg.service.MessageService;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+@Service
+<span class="fc" id="L19">public class MessageServiceImpl implements MessageService</span>
+{
+	@Autowired
+	MessageMapper messageMapper;
+
+	@Override
+	public int insertMessage(Message message)
+	{
+<span class="fc" id="L27">		return messageMapper.insertMessage(message);</span>
+	}
+
+	@Override
+	public List&lt;Message&gt; findMessagesByParentId(int parentId)
+	{
+<span class="fc" id="L33">		return messageMapper.findMessagesByParentId(parentId);</span>
+	}
+
+	@Override
+	public List&lt;Message&gt; findMessagesByUserId(int userId)
+	{
+<span class="fc" id="L39">		return messageMapper.findMessagesByUserId(userId);</span>
+	}
+
+	@Override
+	public Message findMessageById(int id)
+	{
+<span class="fc" id="L45">		return messageMapper.findMessageById(id);</span>
+	}
+
+	@Override
+	public List&lt;Message&gt; findAllMessages()
+	{
+<span class="fc" id="L51">		return messageMapper.findAllMessages();</span>
+	}
+
+	@Override
+	public int deleteMessageById(int id)
+	{
+<span class="fc" id="L57">		return messageMapper.deleteMessageById(id);</span>
+	}
+
+	@Override
+	public int deleteMessageByParentId(int parentId)
+	{
+<span class="fc" id="L63">		return messageMapper.deleteMessageByParentId(parentId);</span>
+	}
+
+	@Override
+	public int deleteMessageByUserId(int userId)
+	{
+<span class="fc" id="L69">		return messageMapper.deleteMessageByUserId(userId);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

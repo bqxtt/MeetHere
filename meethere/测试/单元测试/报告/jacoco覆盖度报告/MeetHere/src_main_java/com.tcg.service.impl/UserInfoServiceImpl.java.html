@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserInfoServiceImpl.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.service.impl</a> &gt; <span class="el_source">UserInfoServiceImpl.java</span></div><h1>UserInfoServiceImpl.java</h1><pre class="source lang-java linenums">package com.tcg.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.tcg.entity.UserInfo;
+import com.tcg.mapper.UserInfoMapper;
+import com.tcg.service.UserInfoService;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+@Service
+<span class="fc" id="L20">public class UserInfoServiceImpl implements UserInfoService</span>
+{
+<span class="fc" id="L22">	static final BCryptPasswordEncoder ENCODER = new BCryptPasswordEncoder();</span>
+	
+	@Autowired
+	UserInfoMapper userInfoMapper;
+
+	@Override
+	public int insertUser(UserInfo userInfo)
+	{
+<span class="fc" id="L30">		return userInfoMapper.insertUser(userInfo);</span>
+	}
+
+	@Override
+	public int updateUserInfoById(UserInfo userInfo)
+	{
+<span class="fc" id="L36">		return userInfoMapper.updateUserInfoById(userInfo);</span>
+	}
+
+	@Override
+	public UserInfo findUserById(int id)
+	{
+<span class="fc" id="L42">		return userInfoMapper.findUserById(id);</span>
+	}
+
+	@Override
+	public UserInfo findUserByUsername(String username)
+	{
+<span class="fc" id="L48">		return userInfoMapper.findUserByUsername(username);</span>
+	}
+
+	@Override
+	public List&lt;UserInfo&gt; findAllUsers()
+	{
+<span class="fc" id="L54">		return userInfoMapper.findAllUsers();</span>
+	}
+
+	@Override
+	public int deleteUserById(int id)
+	{
+<span class="fc" id="L60">		return userInfoMapper.deleteUserById(id);</span>
+	}
+
+	@Override
+	public int deleteUserByUsername(String username)
+	{
+<span class="fc" id="L66">		return userInfoMapper.deleteUserByUsername(username);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

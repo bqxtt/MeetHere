@@ -1,0 +1,99 @@
+
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	<head>
+		<meta charset="utf-8">
+        <title>login</title>
+        <link rel="stylesheet" type="text/css" href="/css/login.css"/>
+        <link rel="stylesheet" href="/css/elIndex.css">
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script src="/js/vue.js"></script>
+	    <!-- import JavaScript -->
+	    <script src="/js/elIndex.js"></script>
+	  
+
+	</head>
+	<body>
+
+		<div>
+            <div class="bgDiv">
+                <div class="login">
+
+                	<form action = "/public/login" method="post">
+                		<div class="title">
+                			MeetHere Login
+                		</div>
+                    	<div class="username">
+                    		<input class="userInp" type="text" name = "username" placeholder="请输入用户名"/> 
+                    	</div>
+                    	<div class="pwd">                   		
+                        	<input class="pwdInp" type="password" name = "password" placeholder="请输入密码"/>
+                    	</div>
+                    
+                    	<button type="submit" class="btn">登陆</button>
+                    	
+					</form>
+					
+					<br/>
+                  	<button  class = "btn"><a href="register.html">注册</a></button>
+                </div>
+            </div>
+        </div>
+	</body>
+	
+	<script >
+        			
+        new Vue({
+            created()
+            {
+              this.open2();
+            },
+            methods:
+            {
+                open2()
+                {
+                	console.log(window.location.search);
+                	var state = window.location.search;
+                	if(state == "?error")
+               		{
+                        this.$message(
+                                {
+                                    message:'用户名或密码错误',
+                                    type:'error'
+                                }
+                            );
+               		}
+                	else if(state == "?logout")
+                	{
+                		this.$message(
+                				{
+                					message:'退出登录',
+                					type:'warning'
+                				}
+                				
+                				)
+                	}
+                	else if(state == "?success")
+               		{
+                		this.$message(
+                				{
+                					message:'登录成功',
+                					type:'success'
+                				}
+                				
+                				)
+
+          				setTimeout(function () {
+          					window.location.href = "/public/index";
+          				},1000);
+               		}
+                }
+
+            }
+        })
+        	
+	</script>
+	
+</html>

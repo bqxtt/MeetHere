@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">  <!-- 以上代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。 -->  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>场馆信息</title>
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" type="text/css" href="/css/room_operate.css">
+	<style type="text/css">
+		button{
+	width: 120px;
+	height: 40px;
+	background: #4892ff;
+	border: 1px solid #326dcc;
+	color: #fff;
+	font-size: 10px;
+}
+    
+
+	</style>
+</head>
+<body>
+	<header>
+		<div class="logo">
+			<h1 class="vertical-center">MeetHere场馆预约管理系统</h1>
+		</div>
+		<div class="logoff">
+            <a href="/public/login"><span><em class="username"></em>（<em class="usernum">登录</em>）</span></a>
+            <a href="/logout" id="logout"><img src="/images/out.png" alt="注销登录"></a>
+		</div>
+	</header>
+	<div class="myContainer" style="margin:20px auto">
+		<nav class="nav-list">
+			<a href="/public/index.html" class="nav-item" id="nav-item1">
+				<span class="iconfont">&#xe63e;</span>
+				<span class="item-info">主页</span>
+			</a>
+			<a href="/user/reservation.html" class="nav-item" id="nav-item2">
+				<span class="iconfont">&#xe604;</span>
+				<span class="item-info">预约场地</span>
+			</a>
+			<a href="/public/message.html" class="nav-item" id="nav-item3">
+				<span class="iconfont">&#xe601;</span>
+				<span class="item-info">留言</span>
+			</a>
+			<a href="/public/news.html" class="nav-item" id="nav-item4">
+				<span class="iconfont">&#xe64a;</span>
+				<span class="item-info">新闻</span>
+			</a>
+			<a href="/public/room_info.html" class="nav-item" id="nav-item5">
+				<span class="iconfont">&#xe751;</span>
+				<span class="item-info">场馆信息</span>
+			</a>
+			<a href="/user/user_info.html" class="nav-item" id="nav-item6">
+				<span class="iconfont">&#xe610;</span>
+				<span class="item-info">个人中心</span>
+			</a>
+			<span class="triangle" style="left:590px;"></span>
+		</nav>
+
+		<div class="reserve-content">
+			<div class="addRoom">
+				<button id="addaRoom" class='admin'>点击这里添加场馆</button>
+				<div id="roomInput">
+				<input type="text" class ="roomName" placeholder="请输入场馆名">
+				<input type="text" class="roomDis" placeholder="描述一下场馆吧">
+				<input type="text" class="roomLoca" placeholder="请输入场馆地点">
+				<input type="text" class="roomPrice" placeholder="请输入场馆预约价格">
+				<input type="file" name="" id="chooseImage" accept=".jpg,.jpeg,.png">
+	                <img id="showImg" width="200" height="200" src="/images/3994459534-5c3185f0b6e3c.png">
+				<input type="button" class="submit" value="提交">
+				</div>
+		    </div>
+			<table id="reserve_record">
+				<tbody>
+					<tr>
+						<th>场馆id</th>
+						<th>场馆名</th>
+						<th>简介</th>
+						<th>地点</th>
+						<th>价格</th>
+						<th>图片</th>
+						<th class='admin'>操作</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+    </div>
+	<div id="outerdiv" style="text-align: center;position: fixed;z-index: 1000;top: 0;left: 0;
+	    width: 100%;height: 100%;background-color: rgba(255,255,255,.9);">
+	    <div>关闭</div>
+	    <img id="bigimg" style="height: auto;width: 46.6325%;border: 0;
+	        margin: auto;position: absolute;top: 0;bottom: 0;left: 0;right: 0;" src="" />
+	</div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/room_info.js"></script>	
+</body>
+</html>
+
+

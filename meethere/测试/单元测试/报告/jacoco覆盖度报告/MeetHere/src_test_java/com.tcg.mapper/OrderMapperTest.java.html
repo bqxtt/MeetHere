@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>OrderMapperTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.mapper</a> &gt; <span class="el_source">OrderMapperTest.java</span></div><h1>OrderMapperTest.java</h1><pre class="source lang-java linenums">package com.tcg.mapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tcg.entity.Order;
+
+@Transactional
+@RunWith(SpringRunner.class)
+@SpringBootTest
+<span class="fc" id="L22">class OrderMapperTest</span>
+{
+	@Autowired
+	OrderMapper orderMapper;
+	
+	@Test
+	public void should_insert_a_order()
+	{
+<span class="fc" id="L30">		Order order = new Order();</span>
+		
+<span class="fc" id="L32">		order.setSiteId(1);</span>
+<span class="fc" id="L33">		order.setUserId(7);</span>
+<span class="fc" id="L34">		order.setStartTime(Timestamp.valueOf(&quot;2019-12-05 00:00:00&quot;));</span>
+<span class="fc" id="L35">		order.setEndTime(Timestamp.valueOf(&quot;2019-12-05 01:00:00&quot;));</span>
+<span class="fc" id="L36">		order.setState((short)2);</span>
+		
+<span class="fc" id="L38">		int t = orderMapper.insertOrder(order);</span>
+<span class="fc" id="L39">		assertEquals(1, t);</span>
+<span class="fc" id="L40">	}</span>
+	
+	@Test
+	public void should_update_order_by_id()
+	{
+<span class="fc" id="L45">		Order order = new Order();</span>
+		
+<span class="fc" id="L47">		order.setSiteId(1);</span>
+<span class="fc" id="L48">		order.setUserId(7);</span>
+<span class="fc" id="L49">		order.setStartTime(Timestamp.valueOf(&quot;2019-12-05 00:00:00&quot;));</span>
+<span class="fc" id="L50">		order.setEndTime(Timestamp.valueOf(&quot;2019-12-05 01:00:00&quot;));</span>
+<span class="fc" id="L51">		order.setState((short)2);</span>
+<span class="fc" id="L52">		orderMapper.insertOrder(order);</span>
+		
+<span class="fc" id="L54">		List&lt;Order&gt; orders = orderMapper.findOrderBySiteId(1);</span>
+<span class="fc" id="L55">		assertNotNull(orders);</span>
+		
+<span class="fc" id="L57">		order = orders.get(0);</span>
+<span class="fc" id="L58">		Timestamp sTimestamp = Timestamp.valueOf(&quot;2019-12-06 00:00:00&quot;);</span>
+<span class="fc" id="L59">		Timestamp eTimestamp = Timestamp.valueOf(&quot;2019-12-06 01:00:00&quot;);</span>
+<span class="fc" id="L60">		order.setStartTime(sTimestamp);</span>
+<span class="fc" id="L61">		order.setEndTime(eTimestamp);</span>
+<span class="fc" id="L62">		order.setState((short)0);</span>
+		
+<span class="fc" id="L64">		orderMapper.updateOrderById(order);</span>
+<span class="fc" id="L65">		orders = orderMapper.findOrderBySiteId(1);</span>
+<span class="fc" id="L66">		assertNotNull(orders);</span>
+<span class="fc" id="L67">		order = orders.get(0);</span>
+		
+<span class="fc" id="L69">		assertEquals(sTimestamp, order.getStartTime());</span>
+<span class="fc" id="L70">		assertEquals(eTimestamp, order.getEndTime());</span>
+<span class="fc" id="L71">		assertEquals(0, order.getState());</span>
+<span class="fc" id="L72">	}</span>
+	
+	@Test
+	public void should_find_order_contains_time()
+	{
+<span class="fc" id="L77">		Order order = new Order();</span>
+		
+<span class="fc" id="L79">		order.setSiteId(1);</span>
+<span class="fc" id="L80">		order.setUserId(7);</span>
+<span class="fc" id="L81">		order.setStartTime(Timestamp.valueOf(&quot;2019-12-05 00:00:00&quot;));</span>
+<span class="fc" id="L82">		order.setEndTime(Timestamp.valueOf(&quot;2019-12-05 01:00:00&quot;));</span>
+<span class="fc" id="L83">		order.setState((short)2);</span>
+<span class="fc" id="L84">		orderMapper.insertOrder(order);</span>
+		
+<span class="fc" id="L86">		Timestamp timestamp = Timestamp.valueOf(&quot;2019-12-05 00:00:00&quot;);</span>
+		
+<span class="fc" id="L88">		List&lt;Order&gt; orders = orderMapper.findOrderByStartTimeAndEndTime(timestamp);</span>
+		
+<span class="fc" id="L90">		assertNotNull(orders);</span>
+<span class="fc" id="L91">		assertEquals(1, orders.size());</span>
+		//System.out.println(orders.size());
+<span class="fc" id="L93">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

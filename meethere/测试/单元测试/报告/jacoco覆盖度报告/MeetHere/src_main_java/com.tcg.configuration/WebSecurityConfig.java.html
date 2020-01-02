@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>WebSecurityConfig.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.configuration</a> &gt; <span class="el_source">WebSecurityConfig.java</span></div><h1>WebSecurityConfig.java</h1><pre class="source lang-java linenums">package com.tcg.configuration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.tcg.service.impl.MyUserDetailsServiceImpl;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
+<span class="fc" id="L24">public class WebSecurityConfig extends WebSecurityConfigurerAdapter </span>
+{
+	@Override
+	protected void configure(HttpSecurity http) throws Exception
+	{
+<span class="fc" id="L29">		http</span>
+<span class="fc" id="L30">			.csrf()</span>
+<span class="fc" id="L31">				.disable()</span>
+<span class="fc" id="L32">			.authorizeRequests()</span>
+<span class="fc" id="L33">				.antMatchers(&quot;/css/**&quot;, &quot;/js/**&quot;,&quot;/images/**&quot;).permitAll()</span>
+<span class="fc" id="L34">				.antMatchers(&quot;/public/**&quot;,&quot;/system/**&quot;,&quot;/&quot;).permitAll()</span>
+<span class="fc" id="L35">				.antMatchers(&quot;/user/**&quot;).hasAnyRole(&quot;USER&quot;,&quot;ADMIN&quot;)</span>
+<span class="fc" id="L36">				.antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)</span>
+<span class="fc" id="L37">				.anyRequest().authenticated()</span>
+<span class="fc" id="L38">				.and()</span>
+<span class="fc" id="L39">			.formLogin()</span>
+<span class="fc" id="L40">				.loginPage(&quot;/public/login&quot;)</span>
+<span class="fc" id="L41">				.defaultSuccessUrl(&quot;/public/login?success&quot;,true)</span>
+<span class="fc" id="L42">				.permitAll()</span>
+<span class="fc" id="L43">				.and()</span>
+<span class="fc" id="L44">			.logout()</span>
+<span class="fc" id="L45">				.permitAll();</span>
+<span class="fc" id="L46">	}</span>
+	 
+
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception 
+//    {
+//        auth.inMemoryAuthentication()
+//                .passwordEncoder(new BCryptPasswordEncoder())
+//                .withUser(&quot;user&quot;)
+//                .password(new BCryptPasswordEncoder().encode(&quot;123456&quot;))
+//                .roles(&quot;USER&quot;);
+//    }
+	
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
+<span class="fc" id="L63">		auth.userDetailsService(detailsServiceImpl()).passwordEncoder(passwordEncoder());</span>
+<span class="fc" id="L64">	}</span>
+
+	@Bean
+	public MyUserDetailsServiceImpl detailsServiceImpl()
+	{
+<span class="fc" id="L69">		return new MyUserDetailsServiceImpl();</span>
+	}
+	
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder()
+	{
+<span class="fc" id="L75">		return new BCryptPasswordEncoder();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>场地预约</title>
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="/css/room_select.css">
+	<link rel="stylesheet" href="/css/login.css">
+	<link type="text/css" href="/css/jquery.datetimepicker.css" rel="stylesheet" />
+	<style type="text/css">
+		input{
+	    outline-style: none ;
+	    border: 1px solid #ccc; 
+	    border-radius: 3px;
+	    padding: 15px 14px;
+	    width: 302px;
+	    font-size: 14px;
+	    font-weight: 700;
+	    font-family: "Microsoft soft";
+	    margin:10px;
+		}
+		.lu:link {background-color:#B2FF99;}    /* 未被访问的链接 */
+		.lu:visited {background-color:#FFFF85;} /* 已被访问的链接 */
+		.lu:hover {background-color:#FF704D;}   /* 鼠标指针移动到链接上 */
+		.lu:active {background-color:#FF704D;}  /* 正在被点击的链接 */
+		.lu{
+			margin: 5px;
+			margin-bottom: 2px;
+			font-family: Georgia;
+		}
+		
+		select {
+		  /*Chrome同Firefox与IE里面的右侧三角显示的样式不同*/
+		  border: 1px solid #ccc;
+		  /*将默认的select选择框样式清除*/
+		  background: #ffffff;
+		  appearance: none;
+		  -moz-appearance: none;
+		  -webkit-appearance: none;
+		  padding:15px 14px;
+		  width:335px;
+		  margin:10px;
+		  text-align: right;    //文字对齐方式
+		  text-align-last: right;    //  同上
+		 
+		}
+		.butn{
+		width: 330px;
+		height: 40px;
+		background: #4892ff;
+		border: 1px solid #326dcc;
+		color: #fff;
+		font-size: 16px;
+		margin-left: 0px;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="logo">
+			<h1 class="vertical-center">MeetHere场馆预约管理系统</h1>
+		</div>
+		<div class="logoff">
+            <a href="/public/login"><span ><em class="username">未登录</em>（<em class="usernum"></em>）</span></a>
+            <a href="/logout" id="logout"><img src="/images/out.png" alt="注销登录"></a>
+		</div>
+	</header>
+	<div class="myContainer">
+		<nav class="nav-list">
+			<a href="/public/index.html" class="nav-item" id="nav-item1">
+				<span class="iconfont">&#xe63e;</span>
+				<span class="item-info">主页</span>
+			</a>
+			<a href="/user/reservation.html" class="nav-item" id="nav-item2">
+				<span class="iconfont">&#xe604;</span>
+				<span class="item-info">预约场地</span>
+			</a>
+			<a href="/public/message.html" class="nav-item" id="nav-item3">
+				<span class="iconfont">&#xe601;</span>
+				<span class="item-info">留言</span>
+			</a>
+			<a href="/public/news.html" class="nav-item" id="nav-item4">
+				<span class="iconfont">&#xe64a;</span>
+				<span class="item-info">新闻</span>
+			</a>
+			<a href="/public/room_info.html" class="nav-item" id="nav-item5">
+				<span class="iconfont">&#xe751;</span>
+				<span class="item-info">场馆信息</span>
+			</a>
+			<a href="/user/user_info.html" class="nav-item" id="nav-item6">
+				<span class="iconfont">&#xe610;</span>
+				<span class="item-info">个人中心</span>
+			</a>
+			<span class="triangle"></span>
+		</nav>
+		<div class="reserve" align="center">
+			<div class="title">
+				场馆预约
+			</div>
+			<a href="/public/room_info.html" class="lu">查看场馆</a>
+				<div class="roomName">
+               		<select id="roomSelect"></select>
+              	</div>
+              	<p id="RconfirmMsg"> </p> 
+               	<div class="startTime">                   		
+                    <input class="STInp" type="text" id="STInp" placeholder="请输入起始时间：格式yyyy-MM-dd HH:MM:SS"/>
+                </div>
+                <p id="STconfirmMsg"> </p>
+               	<div class="endTime">                   		
+                    <input class="ETInp" type="text" id="ETInp" placeholder="请输入结束时间：格式yyyy-MM-dd HH:MM:SS"/>
+                </div>
+                <p id="ETconfirmMsg"> </p> 
+				
+                 <button class = "butn">提交</button>			
+		</div>
+
+	</div>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/reservation.js"></script>
+	<script type ="text/javascript" src="/js/jquery.datetimepicker.js"></script>
+  	<script type ="text/javascript" src="/js/modal.js"></script>
+	
+</body>
+</html>

@@ -1,0 +1,1487 @@
+{
+	"info": {
+		"_postman_id": "bff3674a-33a0-4ff5-a8c5-14b733b273b6",
+		"name": "MeetHere API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "public api",
+			"item": [
+				{
+					"name": "主界面",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ddf4e8a-3a1f-469a-9090-2b0d9f572ce7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    console.log(postman.responsebody);",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"return html\", function () {",
+									"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.have.string('text/html');",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "重定向",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "26b8fe13-492c-41da-930c-a20a20bb47a3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"return html\", function () {",
+									"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.have.string('text/html');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/message.html",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"message.html"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录界面",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "537554d9-1c53-40f3-a983-7151a3f88d5d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"return html\", function () {",
+									"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.have.string('text/html');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取留言列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ff492bd-6287-4b8b-a085-a4579ccc024b",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"name is 'test'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0].content).to.eql(\"test\");",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取回复留言列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5109ea89-a1dd-48f4-831a-04ddad28ae97",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array').that.is.empty;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/messages/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"messages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取新闻列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a0e7ee49-5206-4f6d-81c7-890d7e9bda08",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/news",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册界面",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7eb375b0-d9a6-4079-a7fa-c1af911f9d94",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"return html\", function () {",
+									"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.have.string('text/html');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/reg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"reg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册用户",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "51b837f0-b65c-4288-9f54-343a576d7340",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/register?username=hhh&password=123456&email=1@qq.com&telephone=110",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"register"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "hhh"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								},
+								{
+									"key": "email",
+									"value": "1@qq.com"
+								},
+								{
+									"key": "telephone",
+									"value": "110"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取场馆列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6eb8c2e7-8d3d-47d1-bf97-1567fc57d4ef",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/public/sites",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"public",
+								"sites"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user api",
+			"item": [
+				{
+					"name": "重定向",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "34e694c0-b08c-4aae-9884-d04594d39383",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"return html\", function () {",
+									"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.have.string('text/html');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/message",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户个人中心",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4292311b-5c3d-44cd-835e-a3325374babc",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check if object contains all provided keys\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.have.all.keys('email', 'password','roles','telephone','userId','username');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/center/bqx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"center",
+								"bqx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新个人信息",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10c1e6b1-8322-4e9f-bf99-bf6f29b53c01",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/center/update/bqx?email=1@qq.com&telephone=110",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"center",
+								"update",
+								"bqx"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "bqx",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "1@qq.com"
+								},
+								{
+									"key": "telephone",
+									"value": "110"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取场馆订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08e385b5-4033-4428-b7df-c796559c3caa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/orders/siteId/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"orders",
+								"siteId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新订单信息",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ae58fe9-bb03-4ee8-93fe-eef8e14e116b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/orders/update/35?startTime=2019-11-11 11:11:11&endTime=2019-11-11 11:11:11&state=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"orders",
+								"update",
+								"35"
+							],
+							"query": [
+								{
+									"key": "startTime",
+									"value": "2019-11-11 11:11:11"
+								},
+								{
+									"key": "endTime",
+									"value": "2019-11-11 11:11:11"
+								},
+								{
+									"key": "state",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取当前用户订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8c01cf1-af04-4deb-afde-3f139da03286",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/orders/username/bqx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"orders",
+								"username",
+								"bqx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "留言",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0496a290-efb4-431d-8a9d-c276397a0a36",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/reply?parentId=0&userId=7&content=test&time=2019-11-11 11:11:11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"reply"
+							],
+							"query": [
+								{
+									"key": "parentId",
+									"value": "0"
+								},
+								{
+									"key": "userId",
+									"value": "7"
+								},
+								{
+									"key": "content",
+									"value": "test"
+								},
+								{
+									"key": "time",
+									"value": "2019-11-11 11:11:11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "预约场馆",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ccdd128-867f-4bb9-87c0-eff331763ba5",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/reverse?userId=7&siteId=1&startTime=2019-11-11 11:11:11&endTime=2019-11-11 11:11:11&state=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"reverse"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "7"
+								},
+								{
+									"key": "siteId",
+									"value": "1"
+								},
+								{
+									"key": "startTime",
+									"value": "2019-11-11 11:11:11"
+								},
+								{
+									"key": "endTime",
+									"value": "2019-11-11 11:11:11"
+								},
+								{
+									"key": "state",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "admin api",
+			"item": [
+				{
+					"name": "删除留言",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28af631b-5745-4274-a766-ef435705afe4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"fail\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/messages/delete/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"messages",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "新增新闻",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4b8916a7-670a-41f7-a9a0-2cda43a96eff",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/news/add?title=test&content=test&imagePath=test&releaseTime=2019-11-11 11:11:11",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"news",
+								"add"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "test"
+								},
+								{
+									"key": "content",
+									"value": "test"
+								},
+								{
+									"key": "imagePath",
+									"value": "test"
+								},
+								{
+									"key": "releaseTime",
+									"value": "2019-11-11 11:11:11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除新闻",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5793a0b6-29a1-4355-95af-7e9b6cdc5088",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"fail\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/news/delete/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"news",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更改新闻",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ccadbaa5-0451-4800-bd76-6ab8d5c804c6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/news/update/17?title=test&content=test&imagePath=test&releaseTime=2019-11-11 11:11:11",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"news",
+								"update",
+								"17"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "test"
+								},
+								{
+									"key": "content",
+									"value": "test"
+								},
+								{
+									"key": "imagePath",
+									"value": "test"
+								},
+								{
+									"key": "releaseTime",
+									"value": "2019-11-11 11:11:11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取所有订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "27ff3cdb-019d-46eb-ae08-b7f1580461e6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json[0]).to.have.all.keys('endTime','orderId','siteId','startTime','state','userId');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除订单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8969bf12-be30-4f3d-93ed-0c80b1c7d3ca",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"fail\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/orders/delete/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"orders",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加场馆",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7653350d-27b3-4d6c-930c-b8b2ad5c9818",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/sites/add?name=test&imagePath=test&description=test&location=test&price=10.0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"sites",
+								"add"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "test"
+								},
+								{
+									"key": "imagePath",
+									"value": "test"
+								},
+								{
+									"key": "description",
+									"value": "test"
+								},
+								{
+									"key": "location",
+									"value": "test"
+								},
+								{
+									"key": "price",
+									"value": "10.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除场馆",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "45a3603c-fe02-4fa6-8137-9c90067d07b0",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"fail\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/sites/delete/0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"sites",
+								"delete",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改场馆信息",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4f77beed-b6ab-41c8-8283-c37aa20d0d79",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/sites/update/1?name=forOrderTest&imagePath=test&description=test&location=test&price=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"sites",
+								"update",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "forOrderTest"
+								},
+								{
+									"key": "imagePath",
+									"value": "test"
+								},
+								{
+									"key": "description",
+									"value": "test"
+								},
+								{
+									"key": "location",
+									"value": "test"
+								},
+								{
+									"key": "price",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取所有用户",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec07cc34-d363-4d07-9696-4f9b5d1357df",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json).to.be.an('array');",
+									"});",
+									"pm.test(\"Check if array is empty\", function () {",
+									"    var json = pm.response.json();",
+									"    pm.expect(json[0]).to.have.all.keys('email','password','roles','telephone','userId','username');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除用户",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1820535d-0307-4e6d-93c8-e5a065f1a634",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/users/delete/hhh",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"users",
+								"delete",
+								"hhh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更改用户信息",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8abaf46b-b472-4eed-8867-ba83061862dd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"success\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/users/update/bqx?username=bqx&password=123456&email=1@qq.com&telephone=110",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"users",
+								"update",
+								"bqx"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "bqx"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								},
+								{
+									"key": "email",
+									"value": "1@qq.com"
+								},
+								{
+									"key": "telephone",
+									"value": "110"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "重定向",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1373e971-6403-4579-bfce-d87357ecc95c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"return html\", function () {",
+									"    pm.expect(postman.getResponseHeader(\"Content-Type\")).to.have.string('text/html');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/admin/newschoose.html",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"newschoose.html"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "system api",
+			"item": [
+				{
+					"name": "获取当前登录用户权限",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05f0b695-2258-4394-a9d3-74a4302e94ca",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return success\"] = responseBody.has(\"2\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/system/authentication",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"system",
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取当前登录用户ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da26a743-aae5-468b-aff5-f4cc43461b6f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/system/userId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"system",
+								"userId"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取当前登录用户名",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6acc8cbe-a1cc-4ea7-b725-290766b835ef",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/system/username",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"system",
+								"username"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "通过id获取用户名",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cf13a18c-61cd-4e36-b372-1015345df379",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"tests[\"return name\"] = responseBody.has(\"bqx\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/system/getusernamebyid/7",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"system",
+								"getusernamebyid",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

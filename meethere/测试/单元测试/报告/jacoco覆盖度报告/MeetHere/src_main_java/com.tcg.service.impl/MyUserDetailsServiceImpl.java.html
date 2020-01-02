@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MyUserDetailsServiceImpl.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.service.impl</a> &gt; <span class="el_source">MyUserDetailsServiceImpl.java</span></div><h1>MyUserDetailsServiceImpl.java</h1><pre class="source lang-java linenums">package com.tcg.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.tcg.entity.UserInfo;
+import com.tcg.service.UserInfoService;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+@Service
+<span class="fc" id="L25">public class MyUserDetailsServiceImpl implements UserDetailsService</span>
+{
+	@Autowired
+	UserInfoService userInfoService;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+	{
+<span class="fc" id="L33">		UserInfo userInfo = userInfoService.findUserByUsername(username);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">		if(userInfo == null)</span>
+		{
+<span class="fc" id="L36">			throw new UsernameNotFoundException(&quot;No such user!&quot;);</span>
+		}
+		
+<span class="fc" id="L39">        List&lt;GrantedAuthority&gt; authorities = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L40">        String roles = userInfo.getRoles();</span>
+<span class="fc" id="L41">        authorities.add(new SimpleGrantedAuthority(roles));</span>
+		
+<span class="fc" id="L43">		return new User(username, userInfo.getPassword(), authorities);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

@@ -1,0 +1,2213 @@
+{
+	"id": "c5378357-7925-470c-8a52-47622eab0c52",
+	"name": "MeetHere API",
+	"allTests": [],
+	"timestamp": "2019-12-26T15:56:35.266Z",
+	"collection_id": "bff3674a-33a0-4ff5-a8c5-14b733b273b6",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "0",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "bff3674a-33a0-4ff5-a8c5-14b733b273b6",
+		"name": "MeetHere API",
+		"order": [],
+		"folders_order": [
+			"b9964b42-fc85-4a0e-9a2a-efc24bb320eb",
+			"d6a71e65-7fe8-42bd-97b9-8caba693b69e",
+			"00ee92bb-e2b7-423e-bbc7-65a044741da6",
+			"6aec32b4-dd1d-4f13-86ee-bb27b4a62ff4"
+		],
+		"isFavorite": false
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [],
+	"results": [
+		{
+			"name": "主界面",
+			"id": "4ff49024-3f26-4332-8d10-240bfc1eb2fd",
+			"url": "http://localhost:8080/public/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return html": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return html": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "重定向",
+			"id": "3b97aa7f-63bf-4985-a0b5-e5a00ca7042d",
+			"url": "http://localhost:8080/public/message.html",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return html": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"11"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return html": true
+				}
+			],
+			"time": "11",
+			"totalRequestTime": "11",
+			"iterationResults": {}
+		},
+		{
+			"name": "登录界面",
+			"id": "d822ef0e-b5b7-480e-981e-bb9989d5cce4",
+			"url": "http://localhost:8080/public/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return html": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return html": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取留言列表",
+			"id": "8ce9ed90-9d22-47d0-a90a-25058ac21040",
+			"url": "http://localhost:8080/public/messages",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"name is 'test'": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"name is 'test'": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"name is 'test'": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取回复留言列表",
+			"id": "06fb9a0b-b4b4-438b-a777-0fc05bbcb0b0",
+			"url": "http://localhost:8080/public/messages/1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取新闻列表",
+			"id": "77c085f2-e1d0-4523-a3dc-c7442f2ed749",
+			"url": "http://localhost:8080/public/news",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "注册界面",
+			"id": "345c04f9-d772-43ca-8f63-4d7dfb22a47f",
+			"url": "http://localhost:8080/public/reg",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return html": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return html": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "注册用户",
+			"id": "58c6e6dc-7bae-42fe-9d5f-8df295204f04",
+			"url": "http://localhost:8080/public/register?username=hhh&password=123456&email=1@qq.com&telephone=110",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"102"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "102",
+			"totalRequestTime": "102",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取场馆列表",
+			"id": "0ed96809-9607-4c03-9ac4-ace2800e349e",
+			"url": "http://localhost:8080/public/sites",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"19"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "19",
+			"totalRequestTime": "19",
+			"iterationResults": {}
+		},
+		{
+			"name": "重定向",
+			"id": "7a59fa05-60cc-446f-b2f4-f4229d80f3c0",
+			"url": "http://localhost:8080/user/message",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return html": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"7"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return html": true
+				}
+			],
+			"time": "7",
+			"totalRequestTime": "7",
+			"iterationResults": {}
+		},
+		{
+			"name": "用户个人中心",
+			"id": "25804ba4-ddaf-4f81-be9c-a997e73ffe92",
+			"url": "http://localhost:8080/user/center/bqx",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if object contains all provided keys": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if object contains all provided keys": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"9"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if object contains all provided keys": true
+				}
+			],
+			"time": "9",
+			"totalRequestTime": "9",
+			"iterationResults": {}
+		},
+		{
+			"name": "更新个人信息",
+			"id": "a4f4edd6-0738-44f0-bc1c-e8aea01a0b78",
+			"url": "http://localhost:8080/user/center/update/bqx?email=1@qq.com&telephone=110",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"6"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "6",
+			"totalRequestTime": "6",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取场馆订单",
+			"id": "65200ced-ac39-4dba-903e-7907cec83053",
+			"url": "http://localhost:8080/user/orders/siteId/1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "更新订单信息",
+			"id": "30d554f7-8360-4e16-89e6-00e9c4b22d8a",
+			"url": "http://localhost:8080/user/orders/update/35?startTime=2019-11-11 11:11:11&endTime=2019-11-11 11:11:11&state=0",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"9"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "9",
+			"totalRequestTime": "9",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取当前用户订单",
+			"id": "cf3986f7-7b11-4a44-a83d-eb8326892c42",
+			"url": "http://localhost:8080/user/orders/username/bqx",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "留言",
+			"id": "63046b86-33bb-49f3-86c4-83bc785d5a62",
+			"url": "http://localhost:8080/user/reply?parentId=0&userId=7&content=test&time=2019-11-11 11:11:11",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"7"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "7",
+			"totalRequestTime": "7",
+			"iterationResults": {}
+		},
+		{
+			"name": "预约场馆",
+			"id": "4b2b744f-5714-4520-97cd-0c65c16c513f",
+			"url": "http://localhost:8080/user/reverse?userId=7&siteId=1&startTime=2019-11-11 11:11:11&endTime=2019-11-11 11:11:11&state=0",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "删除留言",
+			"id": "35fb1cf4-0466-40ef-ac9b-5291a4a56718",
+			"url": "localhost:8080/admin/messages/delete/1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "新增新闻",
+			"id": "f0b9cc0e-131b-40ad-8fd3-f480ef66ddd4",
+			"url": "localhost:8080/admin/news/add?title=test&content=test&imagePath=test&releaseTime=2019-11-11 11:11:11",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"24"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "24",
+			"totalRequestTime": "24",
+			"iterationResults": {}
+		},
+		{
+			"name": "删除新闻",
+			"id": "6f69441b-d9f3-47a3-81ff-90ec0bfe5607",
+			"url": "localhost:8080/admin/news/delete/1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "更改新闻",
+			"id": "ccd38d75-3364-4975-adc7-9af5b2bd49b3",
+			"url": "localhost:8080/admin/news/update/17?title=test&content=test&imagePath=test&releaseTime=2019-11-11 11:11:11",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"11"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "11",
+			"totalRequestTime": "11",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取所有订单",
+			"id": "394ea4b3-21cb-417a-8546-737cb1f6c52f",
+			"url": "localhost:8080/admin/orders",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "删除订单",
+			"id": "3adcc972-abae-4fac-a76a-0a1448e65a1e",
+			"url": "localhost:8080/admin/orders/delete/1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "添加场馆",
+			"id": "052e00bf-2a48-45dd-b838-81a67cf876f5",
+			"url": "localhost:8080/admin/sites/add?name=test&imagePath=test&description=test&location=test&price=10.0",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"7"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "7",
+			"totalRequestTime": "7",
+			"iterationResults": {}
+		},
+		{
+			"name": "删除场馆",
+			"id": "12117dc1-f6e0-4847-b501-6779d557b62c",
+			"url": "localhost:8080/admin/sites/delete/0",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "修改场馆信息",
+			"id": "d8d4fadf-a0ef-482b-ab40-c16133765c92",
+			"url": "localhost:8080/admin/sites/update/1?name=forOrderTest&imagePath=test&description=test&location=test&price=10",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取所有用户",
+			"id": "7a73f270-3900-4268-93f9-5ac33c1ec2c6",
+			"url": "localhost:8080/admin/users",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Check if array is empty": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check if array is empty": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "删除用户",
+			"id": "adc72796-9785-4ec3-b8ea-33783841c37a",
+			"url": "localhost:8080/admin/users/delete/hhh",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"7"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "7",
+			"totalRequestTime": "7",
+			"iterationResults": {}
+		},
+		{
+			"name": "更改用户信息",
+			"id": "9d36e396-6082-4f0b-96c3-f4122d045c69",
+			"url": "localhost:8080/admin/users/update/bqx?username=bqx&password=123456&email=1@qq.com&telephone=110",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"104"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "104",
+			"totalRequestTime": "104",
+			"iterationResults": {}
+		},
+		{
+			"name": "重定向",
+			"id": "8c179449-4fa9-458f-9c3c-b3ced765027d",
+			"url": "localhost:8080/admin/newschoose.html",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return html": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"5"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return html": true
+				}
+			],
+			"time": "5",
+			"totalRequestTime": "5",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取当前登录用户权限",
+			"id": "a2b31f11-581c-4586-9257-d862901abaa1",
+			"url": "localhost:8080/system/authentication",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"4"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return success": true
+				}
+			],
+			"time": "4",
+			"totalRequestTime": "4",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取当前登录用户ID",
+			"id": "755341eb-dd0c-43c7-9b68-ad5217662689",
+			"url": "localhost:8080/system/userId",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"4"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			],
+			"time": "4",
+			"totalRequestTime": "4",
+			"iterationResults": {}
+		},
+		{
+			"name": "获取当前登录用户名",
+			"id": "dee4f90b-040f-4655-b05b-4ab8e21eb777",
+			"url": "localhost:8080/system/username",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Body matches string": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"4"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Body matches string": true
+				}
+			],
+			"time": "4",
+			"totalRequestTime": "4",
+			"iterationResults": {}
+		},
+		{
+			"name": "通过id获取用户名",
+			"id": "99e23c90-8a6f-4593-b581-04e7071dbe4d",
+			"url": "localhost:8080/system/getusernamebyid/7",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true,
+				"return name": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return name": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"6"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"return name": true
+				}
+			],
+			"time": "6",
+			"totalRequestTime": "6",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 70,
+	"totalFail": 0,
+	"totalTime": 444,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "主界面",
+			"id": "4ff49024-3f26-4332-8d10-240bfc1eb2fd",
+			"url": "http://localhost:8080/public/",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "重定向",
+			"id": "3b97aa7f-63bf-4985-a0b5-e5a00ca7042d",
+			"url": "http://localhost:8080/public/message.html",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "登录界面",
+			"id": "d822ef0e-b5b7-480e-981e-bb9989d5cce4",
+			"url": "http://localhost:8080/public/login",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取留言列表",
+			"id": "8ce9ed90-9d22-47d0-a90a-25058ac21040",
+			"url": "http://localhost:8080/public/messages",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"name is 'test'": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取回复留言列表",
+			"id": "06fb9a0b-b4b4-438b-a777-0fc05bbcb0b0",
+			"url": "http://localhost:8080/public/messages/1",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取新闻列表",
+			"id": "77c085f2-e1d0-4523-a3dc-c7442f2ed749",
+			"url": "http://localhost:8080/public/news",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "注册界面",
+			"id": "345c04f9-d772-43ca-8f63-4d7dfb22a47f",
+			"url": "http://localhost:8080/public/reg",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "注册用户",
+			"id": "58c6e6dc-7bae-42fe-9d5f-8df295204f04",
+			"url": "http://localhost:8080/public/register?username=hhh&password=123456&email=1@qq.com&telephone=110",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取场馆列表",
+			"id": "0ed96809-9607-4c03-9ac4-ace2800e349e",
+			"url": "http://localhost:8080/public/sites",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "重定向",
+			"id": "7a59fa05-60cc-446f-b2f4-f4229d80f3c0",
+			"url": "http://localhost:8080/user/message",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "用户个人中心",
+			"id": "25804ba4-ddaf-4f81-be9c-a997e73ffe92",
+			"url": "http://localhost:8080/user/center/bqx",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if object contains all provided keys": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "更新个人信息",
+			"id": "a4f4edd6-0738-44f0-bc1c-e8aea01a0b78",
+			"url": "http://localhost:8080/user/center/update/bqx?email=1@qq.com&telephone=110",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取场馆订单",
+			"id": "65200ced-ac39-4dba-903e-7907cec83053",
+			"url": "http://localhost:8080/user/orders/siteId/1",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "更新订单信息",
+			"id": "30d554f7-8360-4e16-89e6-00e9c4b22d8a",
+			"url": "http://localhost:8080/user/orders/update/35?startTime=2019-11-11 11:11:11&endTime=2019-11-11 11:11:11&state=0",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取当前用户订单",
+			"id": "cf3986f7-7b11-4a44-a83d-eb8326892c42",
+			"url": "http://localhost:8080/user/orders/username/bqx",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "留言",
+			"id": "63046b86-33bb-49f3-86c4-83bc785d5a62",
+			"url": "http://localhost:8080/user/reply?parentId=0&userId=7&content=test&time=2019-11-11 11:11:11",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "预约场馆",
+			"id": "4b2b744f-5714-4520-97cd-0c65c16c513f",
+			"url": "http://localhost:8080/user/reverse?userId=7&siteId=1&startTime=2019-11-11 11:11:11&endTime=2019-11-11 11:11:11&state=0",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "删除留言",
+			"id": "35fb1cf4-0466-40ef-ac9b-5291a4a56718",
+			"url": "localhost:8080/admin/messages/delete/1",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "新增新闻",
+			"id": "f0b9cc0e-131b-40ad-8fd3-f480ef66ddd4",
+			"url": "localhost:8080/admin/news/add?title=test&content=test&imagePath=test&releaseTime=2019-11-11 11:11:11",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "删除新闻",
+			"id": "6f69441b-d9f3-47a3-81ff-90ec0bfe5607",
+			"url": "localhost:8080/admin/news/delete/1",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "更改新闻",
+			"id": "ccd38d75-3364-4975-adc7-9af5b2bd49b3",
+			"url": "localhost:8080/admin/news/update/17?title=test&content=test&imagePath=test&releaseTime=2019-11-11 11:11:11",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取所有订单",
+			"id": "394ea4b3-21cb-417a-8546-737cb1f6c52f",
+			"url": "localhost:8080/admin/orders",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "删除订单",
+			"id": "3adcc972-abae-4fac-a76a-0a1448e65a1e",
+			"url": "localhost:8080/admin/orders/delete/1",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "添加场馆",
+			"id": "052e00bf-2a48-45dd-b838-81a67cf876f5",
+			"url": "localhost:8080/admin/sites/add?name=test&imagePath=test&description=test&location=test&price=10.0",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "删除场馆",
+			"id": "12117dc1-f6e0-4847-b501-6779d557b62c",
+			"url": "localhost:8080/admin/sites/delete/0",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "修改场馆信息",
+			"id": "d8d4fadf-a0ef-482b-ab40-c16133765c92",
+			"url": "localhost:8080/admin/sites/update/1?name=forOrderTest&imagePath=test&description=test&location=test&price=10",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取所有用户",
+			"id": "7a73f270-3900-4268-93f9-5ac33c1ec2c6",
+			"url": "localhost:8080/admin/users",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check if array is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "删除用户",
+			"id": "adc72796-9785-4ec3-b8ea-33783841c37a",
+			"url": "localhost:8080/admin/users/delete/hhh",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "更改用户信息",
+			"id": "9d36e396-6082-4f0b-96c3-f4122d045c69",
+			"url": "localhost:8080/admin/users/update/bqx?username=bqx&password=123456&email=1@qq.com&telephone=110",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "重定向",
+			"id": "8c179449-4fa9-458f-9c3c-b3ced765027d",
+			"url": "localhost:8080/admin/newschoose.html",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return html": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取当前登录用户权限",
+			"id": "a2b31f11-581c-4586-9257-d862901abaa1",
+			"url": "localhost:8080/system/authentication",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return success": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取当前登录用户ID",
+			"id": "755341eb-dd0c-43c7-9b68-ad5217662689",
+			"url": "localhost:8080/system/userId",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "获取当前登录用户名",
+			"id": "dee4f90b-040f-4655-b05b-4ab8e21eb777",
+			"url": "localhost:8080/system/username",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body matches string": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "通过id获取用户名",
+			"id": "99e23c90-8a6f-4593-b581-04e7071dbe4d",
+			"url": "localhost:8080/system/getusernamebyid/7",
+			"time": "2019-12-26T15:56:35.266Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"return name": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		}
+	],
+	"synced": false
+}

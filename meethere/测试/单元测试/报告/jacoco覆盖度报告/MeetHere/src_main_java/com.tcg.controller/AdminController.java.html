@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AdminController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">AdminController.java</span></div><h1>AdminController.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.tcg.entity.News;
+import com.tcg.entity.Order;
+import com.tcg.entity.Site;
+import com.tcg.entity.UserInfo;
+import com.tcg.service.MessageService;
+import com.tcg.service.NewsService;
+import com.tcg.service.OrderService;
+import com.tcg.service.SiteService;
+import com.tcg.service.UserInfoService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+
+@Controller
+@Api(tags = &quot;管理员接口&quot;)
+@RequestMapping(&quot;/admin&quot;)
+<span class="fc" id="L49">public class AdminController</span>
+{
+<span class="fc" id="L51">	private static String success = &quot;success&quot;;</span>
+<span class="fc" id="L52">	private static String fail = &quot;fail&quot;;</span>
+	@Autowired
+	UserInfoService userInfoService;
+	@Autowired
+	SiteService siteService;
+	@Autowired
+	OrderService orderService;
+	@Autowired
+	NewsService newsService;
+	@Autowired
+	MessageService messageService;
+	
+	@GetMapping(&quot;/users&quot;)
+	@ApiOperation(value = &quot;获取所有用户列表&quot;)
+	@ResponseBody
+	public String users()
+	{
+<span class="fc" id="L69">		List&lt;UserInfo&gt; userInfos = userInfoService.findAllUsers();</span>
+<span class="fc" id="L70">		return JSON.toJSONString(userInfos);</span>
+	}
+	
+	@PostMapping(&quot;/users/update/{username}&quot;)
+	@ApiOperation(value = &quot;更改用户信息&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;password&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;email&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;telephone&quot;,required = true,paramType = &quot;query&quot;)
+	})
+	@ResponseBody
+	public String userUpdate(
+			@PathVariable(&quot;username&quot;) String username,
+			@RequestParam(&quot;password&quot;) String password,
+			@RequestParam(&quot;email&quot;) String email,
+			@RequestParam(&quot;telephone&quot;) String telephone
+	)
+	{
+<span class="fc" id="L88">		UserInfo userInfo = userInfoService.findUserByUsername(username);</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">		if(userInfo == null)</span>
+		{
+<span class="fc" id="L91">			return fail;</span>
+		}
+<span class="fc" id="L93">		userInfo.setEmail(email);</span>
+<span class="fc" id="L94">		password = new BCryptPasswordEncoder().encode(password);</span>
+<span class="fc" id="L95">		userInfo.setPassword(password);</span>
+<span class="fc" id="L96">		userInfo.setTelephone(telephone);</span>
+<span class="fc" id="L97">		int t = userInfoService.updateUserInfoById(userInfo);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L100">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L104">			return fail;</span>
+		}
+	}
+	
+	@DeleteMapping(&quot;/users/delete/{username}&quot;)
+	@ApiOperation(value = &quot;删除用户&quot;)
+	@ResponseBody
+	public String userDelete(@PathVariable(&quot;username&quot;) String username)
+	{
+<span class="fc" id="L113">		int t = userInfoService.deleteUserByUsername(username);</span>
+		
+<span class="fc bfc" id="L115" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L117">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L121">			return fail;</span>
+		}
+	}
+	
+	@DeleteMapping(&quot;/sites/delete/{siteId}&quot;)
+	@ApiOperation(value = &quot;删除场馆&quot;)
+	@ResponseBody
+	public String siteDelete(@PathVariable(&quot;siteId&quot;) int siteId)
+	{
+<span class="fc" id="L130">		int t = siteService.deleteSiteById(siteId);</span>
+		
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L134">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L138">			return fail;</span>
+		}
+	}
+	@PostMapping(&quot;/sites/add&quot;)
+	@ApiOperation(value = &quot;添加场馆&quot;)
+	@ResponseBody
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;name&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;imagePath&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;description&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;location&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;price&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;double&quot;)
+	})
+	public String siteAdd(
+			@RequestParam(&quot;name&quot;) String name,
+			@RequestParam(&quot;imagePath&quot;) String imagePath,
+			@RequestParam(&quot;description&quot;) String description,
+			@RequestParam(&quot;location&quot;) String location,
+			@RequestParam(&quot;price&quot;) double price
+	) throws IOException
+	{
+<span class="fc" id="L159">		Site site = new Site();</span>
+<span class="fc" id="L160">		site.setDescription(description);</span>
+<span class="fc" id="L161">		site.setImagePath(returnImagePath(imagePath));</span>
+<span class="fc" id="L162">		site.setLocation(location);</span>
+<span class="fc" id="L163">		site.setName(name);</span>
+<span class="fc" id="L164">		site.setPrice(price);</span>
+		
+<span class="fc" id="L166">		int t = siteService.insertSite(site);</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L169">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L173">			return fail;</span>
+		}
+	}
+	
+	@PostMapping(&quot;/sites/update/{siteId}&quot;)
+	@ApiOperation(value = &quot;修改场馆信息&quot;)
+	@ResponseBody
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;name&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;imagePath&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;description&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;location&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;price&quot;,required = true,paramType = &quot;query&quot;,dataType = &quot;double&quot;)
+	})
+	public String siteUpdate(
+			@PathVariable(&quot;siteId&quot;) int siteId,
+			@RequestParam(&quot;name&quot;) String name,
+			@RequestParam(&quot;imagePath&quot;) String imagePath,
+			@RequestParam(&quot;description&quot;) String description,
+			@RequestParam(&quot;location&quot;) String location,
+			@RequestParam(&quot;price&quot;) double price
+	) throws IOException
+	{
+<span class="fc" id="L196">		Site site = siteService.findSiteById(siteId);</span>
+<span class="fc" id="L197">		site.setDescription(description);</span>
+<span class="fc" id="L198">		site.setImagePath(returnImagePath(imagePath));</span>
+<span class="fc" id="L199">		site.setLocation(location);</span>
+<span class="fc" id="L200">		site.setName(name);</span>
+<span class="fc" id="L201">		site.setPrice(price);</span>
+		
+<span class="fc" id="L203">		int t = siteService.updateSiteById(site);</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L206">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L210">			return fail;</span>
+		}
+	}
+	
+	@GetMapping(&quot;/orders&quot;)
+	@ApiOperation(value = &quot;获取所有订单&quot;)
+	@ResponseBody
+	public String ordersAll()
+	{
+<span class="fc" id="L219">		List&lt;Order&gt; orders = orderService.findAllOrders();</span>
+		
+<span class="fc" id="L221">		return JSON.toJSONString(orders);</span>
+	}
+	
+	@DeleteMapping(&quot;/orders/delete/{orderId}&quot;)
+	@ApiOperation(value = &quot;删除订单&quot;)
+	@ResponseBody
+	public String orderDelete(@PathVariable(&quot;orderId&quot;) int orderId)
+	{
+<span class="fc" id="L229">		int t = orderService.deleteOrderById(orderId);</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L232">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L236">			return fail;</span>
+		}
+	}
+	
+	@PostMapping(&quot;/news/add&quot;)
+	@ResponseBody
+	@ApiOperation(value = &quot;新增新闻&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;title&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;content&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;imagePath&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;releaseTime&quot;,required = true,paramType = &quot;query&quot;),
+	})
+	public String newsAdd(
+			@RequestParam(&quot;title&quot;) String title,
+			@RequestParam(&quot;content&quot;) String content,
+			@RequestParam(&quot;imagePath&quot;) String imagePath,
+			@RequestParam(&quot;releaseTime&quot;) String releaseTime
+	) throws IOException
+	{
+<span class="fc" id="L256">		News news = new News();</span>
+<span class="fc" id="L257">		news.setTitle(title);</span>
+<span class="fc" id="L258">		news.setContent(content);</span>
+<span class="fc" id="L259">		news.setImagePath(returnImagePath(imagePath));</span>
+<span class="fc" id="L260">		news.setReleaseTime(Timestamp.valueOf(releaseTime));</span>
+<span class="fc" id="L261">		int t = newsService.insertNews(news);</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L264">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L268">			return fail;</span>
+		}
+	}
+	
+	@PostMapping(&quot;/news/update/{newsId}&quot;)
+	@ResponseBody
+	@ApiOperation(value = &quot;更改新闻&quot;)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = &quot;title&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;content&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;imagePath&quot;,required = true,paramType = &quot;query&quot;),
+		@ApiImplicitParam(name = &quot;releaseTime&quot;,required = true,paramType = &quot;query&quot;),
+	})
+	public String newsUpdate(
+			@PathVariable(&quot;newsId&quot;) int newsId,
+			@RequestParam(&quot;title&quot;) String title,
+			@RequestParam(&quot;content&quot;) String content,
+			@RequestParam(&quot;imagePath&quot;) String imagePath,
+			@RequestParam(&quot;releaseTime&quot;) String releaseTime
+	) throws IOException
+	{
+<span class="fc" id="L289">		News news = newsService.findNewsById(newsId);</span>
+<span class="fc" id="L290">		news.setContent(content);</span>
+<span class="fc" id="L291">		news.setTitle(title);</span>
+<span class="fc" id="L292">		news.setImagePath(returnImagePath(imagePath));</span>
+<span class="fc" id="L293">		news.setReleaseTime(Timestamp.valueOf(releaseTime));</span>
+<span class="fc" id="L294">		int t = newsService.updateNewsById(news);</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L297">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L301">			return fail;</span>
+		}
+	}
+	
+	@DeleteMapping(&quot;/news/delete/{newsId}&quot;)
+	@ResponseBody
+	@ApiOperation(value = &quot;删除新闻&quot;)
+	public String newsDelete(@PathVariable(&quot;newsId&quot;) int newsId)
+	{
+<span class="fc" id="L310">		int t = newsService.deleteNewsById(newsId);</span>
+<span class="fc bfc" id="L311" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L313">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L317">			return fail;</span>
+		}
+	}
+	
+	@DeleteMapping(&quot;/messages/delete/{messageId}&quot;)
+	@ResponseBody
+	@ApiOperation(value = &quot;删除留言&quot;)
+	public String messageDelete(@PathVariable(&quot;messageId&quot;) int messageId)
+	{
+<span class="fc" id="L326">		int t = messageService.deleteMessageById(messageId);</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">		if(t == 1)</span>
+		{
+<span class="fc" id="L329">			return success;</span>
+		}
+		else 
+		{
+<span class="fc" id="L333">			return fail;</span>
+		}
+	}
+	
+	@GetMapping(&quot;/{html}&quot;)
+	public String redirect(@PathVariable(&quot;html&quot;) String html)
+	{
+<span class="fc" id="L340">		return html;</span>
+	}
+	
+<span class="fc" id="L343">	private static String rootPath = &quot;src/main/resources/images/&quot;;</span>
+	@ApiIgnore
+	private String returnImagePath(String imageBase64) throws IOException
+	{
+<span class="pc bpc" id="L347" title="1 of 4 branches missed.">		if(imageBase64 == null || imageBase64.equals(&quot;&quot;))</span>
+		{
+<span class="fc" id="L349">			return &quot;&quot;;</span>
+		}
+		
+<span class="fc" id="L352">		Date date = new Date();</span>
+<span class="fc" id="L353">		SimpleDateFormat sdf2 = new SimpleDateFormat(&quot;yyyy_MM_dd_HH_MM_SS&quot;);</span>
+		
+<span class="fc" id="L355">		String imageName = rootPath + sdf2.format(date) + &quot;.txt&quot;;</span>
+<span class="fc" id="L356">		File fileSaver = new File(imageName);</span>
+		
+<span class="fc" id="L358">		FileWriter writer = null;</span>
+		
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">		if(fileSaver.createNewFile())</span>
+		{
+<span class="fc" id="L362">			writer = new FileWriter(fileSaver, true);</span>
+			try
+			{	
+<span class="fc" id="L365">		        writer.append(imageBase64);</span>
+<span class="fc" id="L366">		        writer.flush();</span>
+		        
+<span class="fc" id="L368">			} finally</span>
+			{
+<span class="fc" id="L370">				writer.close();</span>
+			}
+
+		}
+
+		
+<span class="fc" id="L376">		return imageName;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

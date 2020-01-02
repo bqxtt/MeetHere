@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SiteMapperTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.mapper</a> &gt; <span class="el_source">SiteMapperTest.java</span></div><h1>SiteMapperTest.java</h1><pre class="source lang-java linenums">package com.tcg.mapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tcg.entity.Site;
+
+@Transactional
+@RunWith(SpringRunner.class)
+@SpringBootTest
+<span class="fc" id="L17">class SiteMapperTest</span>
+{
+	@Autowired
+	SiteMapper siteMapper;
+	
+	@Test
+	public void should_insert_a_site()
+	{
+<span class="fc" id="L25">		Site site = new Site();</span>
+<span class="fc" id="L26">		site.setName(&quot;test&quot;);</span>
+		
+<span class="fc" id="L28">		int t = siteMapper.insertSite(site);</span>
+<span class="fc" id="L29">		assertEquals(1, t);</span>
+<span class="fc" id="L30">	}</span>
+	
+	/*
+	 * 需要在数据库中插入siteId为1的site
+	 * */
+	@Test
+	public void should_update_name_by_id()
+	{	
+<span class="fc" id="L38">		Site site = siteMapper.findSiteById(1);</span>
+<span class="fc" id="L39">		assertNotNull(site);</span>
+		
+<span class="fc" id="L41">		site.setName(&quot;test1&quot;);</span>
+<span class="fc" id="L42">		siteMapper.updateSiteById(site);</span>
+		
+		
+<span class="fc" id="L45">		assertEquals(&quot;test1&quot;, site.getName());</span>
+<span class="fc" id="L46">	}</span>
+
+	/*
+	 * 需要先行在数据库中插入siteId为1的site
+	 * */
+	@Test
+	public void should_delete_site_by_id()
+	{
+<span class="fc" id="L54">		Site site = siteMapper.findSiteById(1);</span>
+<span class="fc" id="L55">		assertNotNull(site);</span>
+		
+<span class="fc" id="L57">		int t = siteMapper.deleteSiteById(1);</span>
+<span class="fc" id="L58">		assertEquals(1, t);</span>
+		
+<span class="fc" id="L60">		site = siteMapper.findSiteById(1);</span>
+<span class="fc" id="L61">		assertNull(site);</span>
+<span class="fc" id="L62">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

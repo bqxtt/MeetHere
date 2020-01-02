@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>register</title>
+	<link rel="stylesheet" type="text/css" href="/css/login.css"/>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script>
+    $(function(){
+
+      $("button").click(function()
+      {
+          var name=$("#username").val();
+          var pwd=$("#password").val();
+          var emad=$("#email").val();
+          var p_num=$("#tel").val();
+          
+          if($.trim(name) == ""){  
+              $("#userMsg").html("<font color='red'>用户名不能为空或空格！</font>");  
+              $("#username").focus();  
+              $("#userMsg").show();
+              return false;  
+             }
+          else if(!name.match(/^[a-zA-Z0-9_-]{4,16}$/)){  
+              $("#userMsg").html("<font color='red'>4到16位字母/数字/下划线/减号</font>");  
+              $("#username").focus(); 
+              $("#userMsg").show();
+              return false;  
+             } 
+          /*
+          else if(name.length>10){
+      		 $("#userMsg").html("<font color='red'>用户名输入的字符数不允许超过10！</font>");  
+         		 $("#username").focus();  
+         		$("#userMsg").show();
+         		 return false; 
+      	}
+          */
+             else
+               $("#userMsg").hide();
+          
+          
+          
+          
+          
+          
+          if($.trim(pwd) == ""){  
+              $("#passwordMsg").html("<font color='red'>密码不能为空或空格！</font>");  
+              $("#password").focus();  
+              $("#passwordMsg").show();
+              return false;  
+             }
+          else if(!pwd.match(/^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/)){  
+              $("#passwordMsg").html("<font color='red'>最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符</font>");  
+              $("#password").focus();  
+              $("#passwordMsg").show();
+              return false;  
+          }
+          /*
+          else if(pwd.length>10){
+     		 $("#passwordMsg").html("<font color='red'></font>");  
+        		 $("#password").focus();
+        		 $("#passwordMsg").show();
+        		 return false; 
+     	}
+          */
+             else
+               $("#passwordMsg").hide();
+
+          
+          
+          
+          
+          
+          if($.trim(emad) == ""){  
+             $("#confirmMsg").html("<font color='red'>邮箱地址不能为空！</font>");  
+             $("#email").focus();  
+             $("#confirmMsg").show();
+             return false;  
+            }  
+          else if(!$("#email").val().match(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/)){  
+             $("#confirmMsg").html("<font color='red'>邮箱格式不正确！请重新输入！</font>");  
+             $("#email").focus();  
+             $("#confirmMsg").show();
+             return false;  
+            }  
+            
+            else
+              $("#confirmMsg").hide();
+            
+            
+            
+             if($.trim(p_num) == ""){  
+                 $("#telMsg").html("<font color='red'>手机号码不能为空！</font>");  
+                 $("#tel").focus();  
+                 $("#telMsg").show();
+                 return false;  
+                }  
+                
+             else if(!$("#tel").val().match(/^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/)){  
+                 $("#telMsg").html("<font color='red'>手机号码格式不正确！请重新输入！</font>");  
+                 $("#tel").focus();
+                 $("#telMsg").show();
+                 return false;  
+                }  
+                
+                else
+                    $("#telMsg").hide();
+          
+          
+        $.post(
+          "/public/register",
+          {
+            username:name,
+            password:pwd,
+            email:emad,
+            telephone:p_num
+          },
+          function(data)
+          {
+            alert(data)
+            window.location.href="/public/login";
+          }
+        )
+          
+      });
+
+    });
+    </script>
+</head>
+<body>
+  <div>
+            <div class="bgDiv">
+                <div class="login">
+                  <div class="title">
+                    MeetHere Register
+                  </div>
+                    <div class="username">
+                      <input class="userInp" type="text" id="username" placeholder="4到16位字母/数字/下划线/减号"/> 
+                    </div>
+                    <div>
+                    <p id="userMsg"> </p>
+                    </div>
+                    
+                    <div class="pwd">                       
+                        <input class="pwdInp" type="password" id="password" placeholder="最少6位，至少1大写字母，1小写字母，1数字，1特殊字符"/>
+                    </div>
+                   <div>
+                    <p id="passwordMsg"> </p>
+                    </div>
+                    
+                      <div class="email">                       
+                        <input class="emailInp" type="text" id="email" placeholder="邮箱"/>
+                    </div>  
+                    
+                    <div>
+                    <p id="confirmMsg"> </p>
+                    </div>
+                    
+                      <div class="tel">                       
+                        <input class="telInp" type="text" id="tel" placeholder="电话号码"/>
+                    </div>           
+                                               
+                    <div>
+                    <p id="telMsg"> </p>
+                    </div>
+                    
+                    <button class = "btn">注册并登陆</button>
+                </div>
+            </div>
+        </div></body>
+</html>

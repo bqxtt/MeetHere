@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MessageMapperTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.mapper</a> &gt; <span class="el_source">MessageMapperTest.java</span></div><h1>MessageMapperTest.java</h1><pre class="source lang-java linenums">package com.tcg.mapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.function.IntToDoubleFunction;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tcg.entity.Message;
+
+@Transactional
+@RunWith(SpringRunner.class)
+@SpringBootTest
+<span class="fc" id="L21">class MessageMapperTest</span>
+{
+	@Autowired
+	MessageMapper messageMapper;
+	
+	@Test
+	public void should_insert_a_message()
+	{
+<span class="fc" id="L29">		Message message = new Message();</span>
+<span class="fc" id="L30">		message.setUserId(7);</span>
+<span class="fc" id="L31">		message.setContent(&quot;testContent&quot;);</span>
+<span class="fc" id="L32">		message.setTime(Timestamp.valueOf(&quot;2019-05-07 00:00:00&quot;));</span>
+		
+<span class="fc" id="L34">		int t = messageMapper.insertMessage(message);</span>
+<span class="fc" id="L35">		assertEquals(1, t);</span>
+<span class="fc" id="L36">	}</span>
+
+	@Test
+	public void should_find_messages_by_parentId()
+	{
+<span class="fc" id="L41">		Message message = new Message();</span>
+<span class="fc" id="L42">		message.setUserId(7);</span>
+<span class="fc" id="L43">		message.setParentId(1);</span>
+<span class="fc" id="L44">		message.setContent(&quot;testContent&quot;);</span>
+<span class="fc" id="L45">		message.setTime(Timestamp.valueOf(&quot;2019-05-07 00:00:00&quot;));</span>
+<span class="fc" id="L46">		messageMapper.insertMessage(message);</span>
+		
+<span class="fc" id="L48">		List&lt;Message&gt; messages = messageMapper.findMessagesByParentId(1);</span>
+<span class="fc" id="L49">		assertNotNull(messages);</span>
+<span class="fc" id="L50">		assertEquals(1, messages.size());</span>
+<span class="fc" id="L51">	}</span>
+	
+	@Test
+	public void should_find_messages_by_userId()
+	{
+<span class="fc" id="L56">		Message message = new Message();</span>
+<span class="fc" id="L57">		message.setUserId(7);</span>
+<span class="fc" id="L58">		message.setParentId(1);</span>
+<span class="fc" id="L59">		message.setContent(&quot;testContent&quot;);</span>
+<span class="fc" id="L60">		message.setTime(Timestamp.valueOf(&quot;2019-05-07 00:00:00&quot;));</span>
+<span class="fc" id="L61">		messageMapper.insertMessage(message);</span>
+		
+<span class="fc" id="L63">		List&lt;Message&gt; messages = messageMapper.findMessagesByUserId(7);</span>
+<span class="fc" id="L64">		assertNotNull(messages);</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">		assertTrue(1 &lt;= messages.size());</span>
+<span class="fc" id="L66">	}</span>
+	
+	@Test
+	public void shoud_delete_messages_by_parentId()
+	{
+<span class="fc" id="L71">		Message message = new Message();</span>
+<span class="fc" id="L72">		message.setUserId(7);</span>
+<span class="fc" id="L73">		message.setParentId(1);</span>
+<span class="fc" id="L74">		message.setContent(&quot;testContent&quot;);</span>
+<span class="fc" id="L75">		message.setTime(Timestamp.valueOf(&quot;2019-05-07 00:00:00&quot;));</span>
+<span class="fc" id="L76">		messageMapper.insertMessage(message);</span>
+		
+<span class="fc" id="L78">		int t = messageMapper.deleteMessageByParentId(1);</span>
+<span class="fc" id="L79">		assertEquals(1, t);</span>
+		
+<span class="fc" id="L81">		List&lt;Message&gt; messages = messageMapper.findMessagesByParentId(1);</span>
+<span class="fc" id="L82">		assertNotNull(messages);</span>
+<span class="fc" id="L83">		assertEquals(0, messages.size());</span>
+<span class="fc" id="L84">	}</span>
+	
+	@Test
+	public void should_delete_messages_by_userId()
+	{
+<span class="fc" id="L89">		Message message = new Message();</span>
+<span class="fc" id="L90">		message.setUserId(7);</span>
+<span class="fc" id="L91">		message.setParentId(1);</span>
+<span class="fc" id="L92">		message.setContent(&quot;testContent&quot;);</span>
+<span class="fc" id="L93">		message.setTime(Timestamp.valueOf(&quot;2019-05-07 00:00:00&quot;));</span>
+<span class="fc" id="L94">		messageMapper.insertMessage(message);</span>
+		
+<span class="fc" id="L96">		int t = messageMapper.deleteMessageByUserId(7);</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		assertTrue(t &gt;= 1);</span>
+		
+<span class="fc" id="L99">		List&lt;Message&gt; messages = messageMapper.findMessagesByUserId(7);</span>
+<span class="fc" id="L100">		assertNotNull(messages);</span>
+<span class="fc" id="L101">		assertEquals(0, messages.size());</span>
+<span class="fc" id="L102">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

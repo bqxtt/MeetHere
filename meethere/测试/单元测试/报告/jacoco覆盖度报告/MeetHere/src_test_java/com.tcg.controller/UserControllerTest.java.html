@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>UserControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">UserControllerTest.java</span></div><h1>UserControllerTest.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.alibaba.fastjson.JSON;
+import com.tcg.entity.Message;
+import com.tcg.entity.News;
+import com.tcg.entity.Order;
+import com.tcg.entity.UserInfo;
+import com.tcg.service.MessageService;
+import com.tcg.service.OrderService;
+import com.tcg.service.UserInfoService;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = UserController.class)
+<span class="fc" id="L38">class UserControllerTest</span>
+{
+	@Autowired
+	private MockMvc mockmvc;
+	
+	@MockBean
+	private UserInfoService userInfoService;
+	@MockBean
+	private MessageService messageService;
+	@MockBean
+	private OrderService orderService;
+
+	@Test
+	@WithAnonymousUser
+	public void should_redirect_to_login_html_when_not_login() throws Exception
+	{
+<span class="fc" id="L54">		mockmvc.perform(get(&quot;/user/center/bqx&quot;))</span>
+<span class="fc" id="L55">			   .andExpect(status().is3xxRedirection())</span>
+<span class="fc" id="L56">			   .andExpect(redirectedUrl(&quot;http://localhost/public/login&quot;));</span>
+<span class="fc" id="L57">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_userInfo() throws Exception
+	{
+<span class="fc" id="L63">		UserInfo userInfo = new UserInfo();</span>
+<span class="fc" id="L64">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(userInfo);</span>
+<span class="fc" id="L65">		mockmvc.perform(get(&quot;/user/center/bqx&quot;))</span>
+<span class="fc" id="L66">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L67">			   .andExpect(content().string(JSON.toJSONString(userInfo)));</span>
+<span class="fc" id="L68">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L69">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_success_when_update_userInfo() throws Exception
+	{
+<span class="fc" id="L75">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(new UserInfo());</span>
+<span class="fc" id="L76">		when(userInfoService.updateUserInfoById(Mockito.any(UserInfo.class))).thenReturn(1);</span>
+<span class="fc" id="L77">		mockmvc.perform(post(&quot;/user/center/update/bqx&quot;)</span>
+<span class="fc" id="L78">						.param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L79">						.param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L80">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L81">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L82">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L83">		verify(userInfoService,times(1)).updateUserInfoById(Mockito.any(UserInfo.class));</span>
+<span class="fc" id="L84">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_fail_when_user_not_exist() throws Exception
+	{
+<span class="fc" id="L90">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(null);</span>
+<span class="fc" id="L91">		when(userInfoService.updateUserInfoById(Mockito.any(UserInfo.class))).thenReturn(1);</span>
+<span class="fc" id="L92">		mockmvc.perform(post(&quot;/user/center/update/bqx&quot;)</span>
+<span class="fc" id="L93">						.param(&quot;username&quot;, &quot;bqx&quot;)</span>
+<span class="fc" id="L94">						.param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L95">						.param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L96">						.param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L97">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L98">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L99">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L100">		verify(userInfoService,times(0)).updateUserInfoById(Mockito.any(UserInfo.class));</span>
+<span class="fc" id="L101">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_fail_when_update_userInfo() throws Exception
+	{
+<span class="fc" id="L107">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(new UserInfo());</span>
+<span class="fc" id="L108">		when(userInfoService.updateUserInfoById(Mockito.any(UserInfo.class))).thenReturn(0);</span>
+<span class="fc" id="L109">		mockmvc.perform(post(&quot;/user/center/update/bqx&quot;)</span>
+<span class="fc" id="L110">						.param(&quot;username&quot;, &quot;bqx&quot;)</span>
+<span class="fc" id="L111">						.param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L112">						.param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L113">						.param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L114">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L115">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L116">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L117">		verify(userInfoService,times(1)).updateUserInfoById(Mockito.any(UserInfo.class));</span>
+<span class="fc" id="L118">	}</span>
+
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_user_orders() throws Exception
+	{
+<span class="fc" id="L124">		UserInfo userInfo = new UserInfo();</span>
+<span class="fc" id="L125">		userInfo.setUserId(1);</span>
+<span class="fc" id="L126">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(userInfo);</span>
+<span class="fc" id="L127">		when(orderService.findOrderByUserId(1)).thenReturn(new ArrayList&lt;Order&gt;());</span>
+<span class="fc" id="L128">		mockmvc.perform(get(&quot;/user/orders/username/bqx&quot;))</span>
+<span class="fc" id="L129">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L130">			   .andExpect(content().string(JSON.toJSONString(new ArrayList&lt;Order&gt;())));</span>
+<span class="fc" id="L131">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L132">		verify(orderService,times(1)).findOrderByUserId(1);</span>
+<span class="fc" id="L133">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_site_orders() throws Exception
+	{
+<span class="fc" id="L139">		when(orderService.findOrderBySiteId(1)).thenReturn(new ArrayList&lt;Order&gt;());</span>
+<span class="fc" id="L140">		mockmvc.perform(get(&quot;/user/orders/siteId/1&quot;))</span>
+<span class="fc" id="L141">		       .andExpect(status().isOk())</span>
+<span class="fc" id="L142">		       .andExpect(content().string(JSON.toJSONString(new ArrayList&lt;Order&gt;())));</span>
+<span class="fc" id="L143">		verify(orderService,times(1)).findOrderBySiteId(1);</span>
+<span class="fc" id="L144">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_success_when_update_order() throws Exception
+	{
+<span class="fc" id="L150">		when(orderService.updateOrderById(Mockito.any(Order.class))).thenReturn(1);</span>
+<span class="fc" id="L151">		when(orderService.findOrderById(1)).thenReturn(new Order());</span>
+<span class="fc" id="L152">		mockmvc.perform(post(&quot;/user/orders/update/1&quot;)</span>
+<span class="fc" id="L153">						.param(&quot;startTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L154">						.param(&quot;endTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L155">						.param(&quot;state&quot;, &quot;1&quot;))</span>
+<span class="fc" id="L156">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L157">			   .andExpect(content().string(&quot;success&quot;));	</span>
+<span class="fc" id="L158">		verify(orderService,times(1)).findOrderById(1);</span>
+<span class="fc" id="L159">		verify(orderService,times(1)).updateOrderById(Mockito.any(Order.class));</span>
+<span class="fc" id="L160">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_fail_when_update_order() throws Exception
+	{
+<span class="fc" id="L166">		when(orderService.updateOrderById(Mockito.any(Order.class))).thenReturn(0);</span>
+<span class="fc" id="L167">		when(orderService.findOrderById(1)).thenReturn(new Order());</span>
+<span class="fc" id="L168">		mockmvc.perform(post(&quot;/user/orders/update/1&quot;)</span>
+<span class="fc" id="L169">						.param(&quot;startTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L170">						.param(&quot;endTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L171">						.param(&quot;state&quot;, &quot;1&quot;))</span>
+<span class="fc" id="L172">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L173">			   .andExpect(content().string(&quot;fail&quot;));	</span>
+<span class="fc" id="L174">		verify(orderService,times(1)).findOrderById(1);</span>
+<span class="fc" id="L175">		verify(orderService,times(1)).updateOrderById(Mockito.any(Order.class));</span>
+<span class="fc" id="L176">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_success_when_reply() throws Exception
+	{
+<span class="fc" id="L182">		when(messageService.insertMessage(Mockito.any(Message.class))).thenReturn(1);</span>
+<span class="fc" id="L183">		mockmvc.perform(post(&quot;/user/reply&quot;)</span>
+<span class="fc" id="L184">						.param(&quot;parentId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L185">						.param(&quot;userId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L186">						.param(&quot;content&quot;, &quot;hello world!&quot;)</span>
+<span class="fc" id="L187">						.param(&quot;time&quot;, &quot;2019-11-11 11:11:11&quot;))</span>
+<span class="fc" id="L188">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L189">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L190">		verify(messageService,times(1)).insertMessage(Mockito.any(Message.class));</span>
+<span class="fc" id="L191">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_fail_when_reply() throws Exception
+	{
+<span class="fc" id="L197">		when(messageService.insertMessage(Mockito.any(Message.class))).thenReturn(0);</span>
+<span class="fc" id="L198">		mockmvc.perform(post(&quot;/user/reply&quot;)</span>
+<span class="fc" id="L199">						.param(&quot;parentId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L200">						.param(&quot;userId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L201">						.param(&quot;content&quot;, &quot;hello world!&quot;)</span>
+<span class="fc" id="L202">						.param(&quot;time&quot;, &quot;2019-11-11 11:11:11&quot;))</span>
+<span class="fc" id="L203">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L204">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L205">		verify(messageService,times(1)).insertMessage(Mockito.any(Message.class));</span>
+<span class="fc" id="L206">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_success_when_success_to_delete_message() throws Exception
+	{
+<span class="fc" id="L212">		when(messageService.deleteMessageById(1)).thenReturn(1);</span>
+<span class="fc" id="L213">		mockmvc.perform(delete(&quot;/user/reply/delete/1&quot;))</span>
+<span class="fc" id="L214">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L215">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L216">		verify(messageService,times(1)).deleteMessageById(1);</span>
+<span class="fc" id="L217">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_fail_when_fail_to_delete_message() throws Exception
+	{
+<span class="fc" id="L223">		when(messageService.deleteMessageById(1)).thenReturn(0);</span>
+<span class="fc" id="L224">		mockmvc.perform(delete(&quot;/user/reply/delete/1&quot;))</span>
+<span class="fc" id="L225">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L226">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L227">		verify(messageService,times(1)).deleteMessageById(1);</span>
+<span class="fc" id="L228">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_success_when_reverse_a_site() throws Exception
+	{
+<span class="fc" id="L234">		when(orderService.insertOrder(Mockito.any(Order.class))).thenReturn(1);</span>
+<span class="fc" id="L235">		mockmvc.perform(post(&quot;/user/reverse&quot;)</span>
+<span class="fc" id="L236">						.param(&quot;userId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L237">						.param(&quot;siteId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L238">						.param(&quot;startTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L239">						.param(&quot;endTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L240">						.param(&quot;state&quot;, &quot;0&quot;))</span>
+<span class="fc" id="L241">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L242">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L243">		verify(orderService,times(1)).insertOrder(Mockito.any(Order.class));</span>
+<span class="fc" id="L244">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_fail_when_reverse_a_site() throws Exception
+	{
+<span class="fc" id="L250">		when(orderService.insertOrder(Mockito.any(Order.class))).thenReturn(0);</span>
+<span class="fc" id="L251">		mockmvc.perform(post(&quot;/user/reverse&quot;)</span>
+<span class="fc" id="L252">						.param(&quot;userId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L253">						.param(&quot;siteId&quot;, &quot;1&quot;)</span>
+<span class="fc" id="L254">						.param(&quot;startTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L255">						.param(&quot;endTime&quot;, &quot;2019-11-11 11:11:11&quot;)</span>
+<span class="fc" id="L256">						.param(&quot;state&quot;, &quot;0&quot;))</span>
+<span class="fc" id="L257">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L258">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L259">		verify(orderService,times(1)).insertOrder(Mockito.any(Order.class));</span>
+<span class="fc" id="L260">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_required_html() throws Exception
+	{
+<span class="fc" id="L266">		mockmvc.perform(get(&quot;/user/user_info.html&quot;))</span>
+<span class="fc" id="L267">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L268">			   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+<span class="fc" id="L269">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

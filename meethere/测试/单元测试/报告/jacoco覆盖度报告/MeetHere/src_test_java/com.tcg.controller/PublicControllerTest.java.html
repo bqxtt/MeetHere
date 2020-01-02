@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>PublicControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">PublicControllerTest.java</span></div><h1>PublicControllerTest.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.util.MultiValueMap;
+
+import com.alibaba.fastjson.JSON;
+import com.tcg.entity.Message;
+import com.tcg.entity.News;
+import com.tcg.entity.Site;
+import com.tcg.entity.UserInfo;
+import com.tcg.service.MessageService;
+import com.tcg.service.NewsService;
+import com.tcg.service.SiteService;
+import com.tcg.service.UserInfoService;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = PublicController.class)
+<span class="fc" id="L47">class PublicControllerTest</span>
+{
+	@Autowired
+	MockMvc mockMvc;
+	@MockBean
+	NewsService newsService;
+	@MockBean
+	MessageService messageService; 
+	@MockBean
+	SiteService siteService;
+	@MockBean
+	UserInfoService userInfoService;
+	
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_all_news() throws Exception
+	{
+<span class="fc" id="L65">		String fileExist = &quot;src/test/resources/images/1.txt&quot;;</span>
+<span class="fc" id="L66">		String fileNotExist = &quot;src/test/resources/images/2.txt&quot;;</span>
+<span class="fc" id="L67">		File file = new File(fileExist);</span>
+<span class="fc" id="L68">		file.createNewFile();</span>
+		
+<span class="fc" id="L70">		List&lt;News&gt; news = new ArrayList&lt;News&gt;();</span>
+		
+<span class="fc" id="L72">		News news1 = new News();</span>
+<span class="fc" id="L73">		news1.setImagePath(null);</span>
+		
+<span class="fc" id="L75">		News news2 = new News();</span>
+<span class="fc" id="L76">		news2.setImagePath(&quot;&quot;);</span>
+		
+<span class="fc" id="L78">		News news3 = new News();</span>
+<span class="fc" id="L79">		news3.setImagePath(fileExist);</span>
+		
+<span class="fc" id="L81">		News news4 = new News();</span>
+<span class="fc" id="L82">		news4.setImagePath(fileNotExist);</span>
+		
+<span class="fc" id="L84">		news.add(news4);</span>
+<span class="fc" id="L85">		news.add(news3);</span>
+<span class="fc" id="L86">		news.add(news2);</span>
+<span class="fc" id="L87">		news.add(news1);</span>
+		
+<span class="fc" id="L89">		when(newsService.findAllNews()).thenReturn(news);</span>
+<span class="fc" id="L90">		MvcResult mvcResult = mockMvc.perform(get(&quot;/public/news&quot;))</span>
+<span class="fc" id="L91">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L92">									 .andReturn();</span>
+<span class="fc" id="L93">		assertEquals(JSON.toJSONString(news), mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L94">		verify(newsService,times(1)).findAllNews();</span>
+		
+<span class="fc" id="L96">		file.delete();</span>
+<span class="fc" id="L97">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_news_content_html() throws Exception
+	{
+<span class="fc" id="L103">		String fileExist = &quot;src/test/resources/images/1.txt&quot;;</span>
+<span class="fc" id="L104">		String fileNotExist = &quot;src/test/resources/images/2.txt&quot;;</span>
+<span class="fc" id="L105">		File file = new File(fileExist);</span>
+<span class="fc" id="L106">		file.createNewFile();</span>
+		
+<span class="fc" id="L108">		News news = new News();</span>
+<span class="fc" id="L109">		news.setImagePath(fileExist);</span>
+		
+<span class="fc" id="L111">		when(newsService.findNewsById(1)).thenReturn(news);</span>
+<span class="fc" id="L112">		mockMvc.perform(get(&quot;/public/news/1&quot;))</span>
+<span class="fc" id="L113">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L114">			   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+		
+<span class="fc" id="L116">		news.setImagePath(fileNotExist);</span>
+<span class="fc" id="L117">		mockMvc.perform(get(&quot;/public/news/1&quot;))</span>
+<span class="fc" id="L118">		   .andExpect(status().isOk())</span>
+<span class="fc" id="L119">		   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+		
+<span class="fc" id="L121">		news.setImagePath(null);</span>
+<span class="fc" id="L122">		mockMvc.perform(get(&quot;/public/news/1&quot;))</span>
+<span class="fc" id="L123">		   .andExpect(status().isOk())</span>
+<span class="fc" id="L124">		   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+		
+<span class="fc" id="L126">		news.setImagePath(&quot;&quot;);</span>
+<span class="fc" id="L127">		mockMvc.perform(get(&quot;/public/news/1&quot;))</span>
+<span class="fc" id="L128">		   .andExpect(status().isOk())</span>
+<span class="fc" id="L129">		   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+<span class="fc" id="L130">		verify(newsService,times(4)).findNewsById(1);</span>
+		
+<span class="fc" id="L132">		file.delete();</span>
+<span class="fc" id="L133">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_all_root_messages() throws Exception
+	{
+<span class="fc" id="L139">		when(messageService.findMessagesByParentId(0)).thenReturn(new ArrayList&lt;Message&gt;());</span>
+<span class="fc" id="L140">		MvcResult mvcResult = mockMvc.perform(get(&quot;/public/messages&quot;))</span>
+<span class="fc" id="L141">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L142">									 .andReturn();</span>
+<span class="fc" id="L143">		assertEquals(&quot;[]&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L144">		verify(messageService,times(1)).findMessagesByParentId(0);</span>
+<span class="fc" id="L145">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void sholud_return_messages_reply_to_1() throws Exception
+	{
+<span class="fc" id="L151">		when(messageService.findMessagesByParentId(1)).thenReturn(new ArrayList&lt;Message&gt;());</span>
+<span class="fc" id="L152">		MvcResult mvcResult = mockMvc.perform(get(&quot;/public/messages/1&quot;))</span>
+<span class="fc" id="L153">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L154">									 .andReturn();</span>
+<span class="fc" id="L155">		assertEquals(&quot;[]&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L156">		verify(messageService,times(1)).findMessagesByParentId(1);</span>
+<span class="fc" id="L157">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_all_sites() throws Exception
+	{
+<span class="fc" id="L163">		String fileExist = &quot;src/test/resources/images/1.txt&quot;;</span>
+<span class="fc" id="L164">		String fileNotExist = &quot;src/test/resources/images/2.txt&quot;;</span>
+<span class="fc" id="L165">		File file = new File(fileExist);</span>
+<span class="fc" id="L166">		file.createNewFile();</span>
+		
+<span class="fc" id="L168">		List&lt;Site&gt; sites = new ArrayList&lt;Site&gt;();</span>
+		
+<span class="fc" id="L170">		Site site1 = new Site();</span>
+<span class="fc" id="L171">		site1.setImagePath(null);</span>
+		
+<span class="fc" id="L173">		Site site2 = new Site();</span>
+<span class="fc" id="L174">		site2.setImagePath(&quot;&quot;);</span>
+		
+<span class="fc" id="L176">		Site site3 = new Site();</span>
+<span class="fc" id="L177">		site3.setImagePath(fileExist);</span>
+		
+<span class="fc" id="L179">		Site site4 = new Site();</span>
+<span class="fc" id="L180">		site4.setImagePath(fileNotExist);</span>
+		
+<span class="fc" id="L182">		sites.add(site4);</span>
+<span class="fc" id="L183">		sites.add(site3);</span>
+<span class="fc" id="L184">		sites.add(site2);</span>
+<span class="fc" id="L185">		sites.add(site1);</span>
+		
+<span class="fc" id="L187">		when(siteService.findAllSites()).thenReturn(sites);</span>
+<span class="fc" id="L188">		MvcResult mvcResult = mockMvc.perform(get(&quot;/public/sites&quot;))</span>
+<span class="fc" id="L189">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L190">									 .andReturn();</span>
+<span class="fc" id="L191">		assertEquals(JSON.toJSONString(sites), mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L192">		verify(siteService,times(1)).findAllSites();</span>
+		
+<span class="fc" id="L194">		file.delete();</span>
+<span class="fc" id="L195">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_login_html() throws Exception
+	{
+<span class="fc" id="L201">		mockMvc.perform(get(&quot;/public/login&quot;))</span>
+<span class="fc" id="L202">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L203">			   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+<span class="fc" id="L204">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_register_html() throws Exception
+	{
+<span class="fc" id="L210">		mockMvc.perform(get(&quot;/public/reg&quot;))</span>
+<span class="fc" id="L211">		   	   .andExpect(status().isOk())</span>
+<span class="fc" id="L212">		       .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+<span class="fc" id="L213">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_create_a_new_user() throws Exception
+	{	
+<span class="fc" id="L219">		when(userInfoService.insertUser(Mockito.any(UserInfo.class))).thenReturn(1);</span>
+<span class="fc" id="L220">		MvcResult mvcResult = mockMvc.perform(post(&quot;/public/register&quot;)</span>
+<span class="fc" id="L221">											  .param(&quot;username&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L222">											  .param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L223">											  .param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L224">											  .param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L225">							         .andExpect(status().isOk())</span>
+<span class="fc" id="L226">							         .andReturn();</span>
+<span class="fc" id="L227">		assertEquals(&quot;success&quot;, mvcResult.getResponse().getContentAsString());</span>
+		
+<span class="fc" id="L229">		ArgumentCaptor&lt;UserInfo&gt; userCaptor = ArgumentCaptor.forClass(UserInfo.class);</span>
+<span class="fc" id="L230">		verify(userInfoService,times(1)).insertUser(userCaptor.capture());</span>
+		
+<span class="fc" id="L232">		assertEquals(&quot;test&quot;, userCaptor.getValue().getUsername());</span>
+<span class="fc" id="L233">		assertNotEquals(&quot;123456&quot;, userCaptor.getValue().getPassword());</span>
+<span class="fc" id="L234">		assertEquals(&quot;1@qq.com&quot;, userCaptor.getValue().getEmail());</span>
+<span class="fc" id="L235">		assertEquals(&quot;110&quot;, userCaptor.getValue().getTelephone());</span>
+<span class="fc" id="L236">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_fail_when_create_a_user_fail() throws Exception
+	{
+<span class="fc" id="L242">		when(userInfoService.insertUser(Mockito.any(UserInfo.class))).thenReturn(0);</span>
+<span class="fc" id="L243">		MvcResult mvcResult = mockMvc.perform(post(&quot;/public/register&quot;)</span>
+<span class="fc" id="L244">											  .param(&quot;username&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L245">											  .param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L246">											  .param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L247">											  .param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L248">							         .andExpect(status().isOk())</span>
+<span class="fc" id="L249">							         .andReturn();</span>
+<span class="fc" id="L250">		assertEquals(&quot;fail&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L251">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_index_html() throws Exception
+	{
+<span class="fc" id="L257">		mockMvc.perform(get(&quot;/public/&quot;))</span>
+<span class="fc" id="L258">	   	   .andExpect(status().isOk())</span>
+<span class="fc" id="L259">	       .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+<span class="fc" id="L260">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_required_html() throws Exception
+	{
+<span class="fc" id="L266">		mockMvc.perform(get(&quot;/public/message.html&quot;))</span>
+<span class="fc" id="L267">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L268">			   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));		</span>
+<span class="fc" id="L269">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

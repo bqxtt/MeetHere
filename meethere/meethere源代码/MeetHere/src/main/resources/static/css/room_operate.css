@@ -1,0 +1,45 @@
+.myContainer .reserve-content{
+	width:1072px;
+	height:500px;
+	background:#fff;
+	padding:20px;
+}
+.myContainer table{
+	width:700px;
+	margin:0 auto;
+	font-size:1.6rem;
+	border-collapse: collapse;
+	color:#666;
+}
+.myContainer table th,
+.myContainer table td{
+	padding:10px 0;
+	border:1px solid #eee;
+}
+.myContainer table td{
+	text-align: center;
+}
+
+/* page-select */
+.reserve-content .page-select{
+	width:600px;
+	margin:30px auto;
+	text-align: center;
+}
+.reserve-content .page-select .page{
+	display: inline-block;
+	width:40px;
+	height:40px;
+	line-height: 40px;
+	text-align: center;
+	border:1px solid #ccc;
+	margin-right:5px;
+	font-size:1.6rem;
+}
+.reserve-content .page-select .selected,
+.reserve-content .page-select .page:hover{
+	background:#77a6fa;
+}
+.reserve-content .page-select .page:hover{
+	cursor:pointer;
+}

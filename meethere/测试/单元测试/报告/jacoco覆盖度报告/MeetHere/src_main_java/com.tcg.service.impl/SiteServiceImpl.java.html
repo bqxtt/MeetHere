@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SiteServiceImpl.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.service.impl</a> &gt; <span class="el_source">SiteServiceImpl.java</span></div><h1>SiteServiceImpl.java</h1><pre class="source lang-java linenums">package com.tcg.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tcg.entity.Site;
+import com.tcg.mapper.SiteMapper;
+import com.tcg.service.SiteService;
+
+/**
+ * 
+ * @author tcg
+ *
+ */
+
+@Service
+<span class="fc" id="L19">public class SiteServiceImpl implements SiteService</span>
+{
+	@Autowired
+	SiteMapper siteMapper;
+
+	@Override
+	public int insertSite(Site site)
+	{
+<span class="fc" id="L27">		return siteMapper.insertSite(site);</span>
+	}
+
+	@Override
+	public int updateSiteById(Site site)
+	{
+<span class="fc" id="L33">		return siteMapper.updateSiteById(site);</span>
+	}
+
+	@Override
+	public int deleteSiteById(int id)
+	{
+<span class="fc" id="L39">		return siteMapper.deleteSiteById(id);</span>
+	}
+
+	@Override
+	public List&lt;Site&gt; findAllSites()
+	{
+<span class="fc" id="L45">		return siteMapper.findAllSites();</span>
+	}
+
+	@Override
+	public Site findSiteById(int id)
+	{
+<span class="fc" id="L51">		return siteMapper.findSiteById(id);</span>
+	}
+
+	@Override
+	public Site findSiteByName(String name)
+	{
+<span class="fc" id="L57">		return siteMapper.findSiteByName(name);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

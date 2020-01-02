@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SystemControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">SystemControllerTest.java</span></div><h1>SystemControllerTest.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.net.PasswordAuthentication;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import com.tcg.entity.UserInfo;
+import com.tcg.service.UserInfoService;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = SystemController.class)
+<span class="fc" id="L31">class SystemControllerTest</span>
+{
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private UserInfoService userInfoService;
+
+	private static UserInfo userInfo;
+	
+	@BeforeAll
+	public static void init()
+	{
+<span class="fc" id="L44">		userInfo = new UserInfo();</span>
+<span class="fc" id="L45">		userInfo.setUserId(1);</span>
+<span class="fc" id="L46">		userInfo.setUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L47">		userInfo.setPassword(&quot;$2a$10$huqdnccSpjJQRmLH3ZOUIePAF/rNg8ryybuFGntOoZFlKqWfiplVC&quot;);</span>
+<span class="fc" id="L48">		userInfo.setRoles(&quot;ROLE_ADMIN&quot;);</span>
+<span class="fc" id="L49">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_0_of_userId_when_no_user_login() throws Exception
+	{
+<span class="fc" id="L55">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/userId&quot;))</span>
+<span class="fc" id="L56">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L57">									 .andReturn();</span>
+<span class="fc" id="L58">		assertEquals(&quot;0&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L59">	}</span>
+	
+	@Test
+	@WithMockUser(username=&quot;bqx&quot;,roles={&quot;ADMIN&quot;})
+	public void should_return_userId_when_user_login() throws Exception
+	{
+<span class="fc" id="L65">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(userInfo);</span>
+<span class="fc" id="L66">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/userId&quot;))</span>
+<span class="fc" id="L67">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L68">									 .andReturn();</span>
+<span class="fc" id="L69">		assertEquals(&quot;1&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L70">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_null_when_no_user_login() throws Exception
+	{
+<span class="fc" id="L76">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/username&quot;))</span>
+<span class="fc" id="L77">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L78">									 .andReturn();		</span>
+<span class="fc" id="L79">		assertEquals(&quot;&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L80">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;username&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_username_when_user_login() throws Exception
+	{
+<span class="fc" id="L86">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/username&quot;))</span>
+<span class="fc" id="L87">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L88">									 .andReturn();	</span>
+<span class="fc" id="L89">		assertEquals(&quot;username&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L90">	}</span>
+	
+	@Test
+	@WithAnonymousUser
+	public void should_return_0_when_no_user_login() throws Exception
+	{
+<span class="fc" id="L96">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/authentication&quot;))</span>
+<span class="fc" id="L97">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L98">									 .andReturn();	</span>
+<span class="fc" id="L99">		assertEquals(&quot;0&quot;, mvcResult.getResponse().getContentAsString());		</span>
+<span class="fc" id="L100">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_return_1_when_user_login() throws Exception
+	{
+<span class="fc" id="L106">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/authentication&quot;))</span>
+<span class="fc" id="L107">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L108">									 .andReturn();	</span>
+<span class="fc" id="L109">		assertEquals(&quot;1&quot;, mvcResult.getResponse().getContentAsString());	</span>
+<span class="fc" id="L110">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_2_when_admin_login() throws Exception
+	{
+<span class="fc" id="L116">		MvcResult mvcResult = mockMvc.perform(get(&quot;/system/authentication&quot;))</span>
+<span class="fc" id="L117">									 .andExpect(status().isOk())</span>
+<span class="fc" id="L118">									 .andReturn();	</span>
+<span class="fc" id="L119">		assertEquals(&quot;2&quot;, mvcResult.getResponse().getContentAsString());	</span>
+<span class="fc" id="L120">	}</span>
+	
+	@Test
+	public void should_login_success_when_user_is_correct() throws Exception
+	{
+<span class="fc" id="L125">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(userInfo);</span>
+<span class="fc" id="L126">		mockMvc.perform(formLogin(&quot;/public/login&quot;).user(&quot;bqx&quot;).password(&quot;123456&quot;))</span>
+<span class="fc" id="L127">			   .andExpect(authenticated());</span>
+<span class="fc" id="L128">	}</span>
+	
+	@Test
+	public void should_login_fail_when_password_is_not_correct() throws Exception
+	{
+<span class="fc" id="L133">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(userInfo);</span>
+<span class="fc" id="L134">		mockMvc.perform(formLogin(&quot;/public/login&quot;).user(&quot;bqx&quot;).password(&quot;invaild&quot;))</span>
+<span class="fc" id="L135">			   .andExpect(unauthenticated());</span>
+<span class="fc" id="L136">	}</span>
+	
+	@Test
+	public void should_login_fail_when_user_is_not_exist() throws Exception
+	{
+<span class="fc" id="L141">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(null);</span>
+<span class="fc" id="L142">		mockMvc.perform(formLogin(&quot;/public/login&quot;).user(&quot;bqx&quot;).password(&quot;123456&quot;))</span>
+<span class="fc" id="L143">		   	   .andExpect(unauthenticated());</span>
+<span class="fc" id="L144">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>

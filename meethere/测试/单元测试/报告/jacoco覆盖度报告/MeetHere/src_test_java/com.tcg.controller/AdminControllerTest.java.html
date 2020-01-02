@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AdminControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (2019年12月27日 上午1:16:01)</a> &gt; <a href="../../index.html" class="el_group">MeetHere</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.tcg.controller</a> &gt; <span class="el_source">AdminControllerTest.java</span></div><h1>AdminControllerTest.java</h1><pre class="source lang-java linenums">package com.tcg.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import javax.sound.midi.VoiceStatus;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import com.alibaba.fastjson.JSON;
+import com.tcg.entity.News;
+import com.tcg.entity.Order;
+import com.tcg.entity.Site;
+import com.tcg.entity.UserInfo;
+import com.tcg.service.MessageService;
+import com.tcg.service.NewsService;
+import com.tcg.service.OrderService;
+import com.tcg.service.SiteService;
+import com.tcg.service.UserInfoService;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = AdminController.class)
+<span class="fc" id="L46">class AdminControllerTest</span>
+{
+	@Autowired
+	MockMvc mockMvc;
+	
+	@MockBean
+	UserInfoService userInfoService;
+	@MockBean
+	SiteService siteService;
+	@MockBean
+	OrderService orderService;
+	@MockBean
+	NewsService newsService;
+	@MockBean
+	MessageService messageService;
+	
+	@Test
+	@WithAnonymousUser
+	public void should_redirect_to_login_if_user_do_not_login() throws Exception
+	{
+<span class="fc" id="L66">		mockMvc.perform(get(&quot;/admin/users&quot;))</span>
+<span class="fc" id="L67">			   .andExpect(status().is3xxRedirection())</span>
+<span class="fc" id="L68">			   .andExpect(redirectedUrl(&quot;http://localhost/public/login&quot;));</span>
+<span class="fc" id="L69">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;USER&quot;})
+	public void should_forbbiden_if_not_a_admin() throws Exception
+	{
+<span class="fc" id="L75">		mockMvc.perform(get(&quot;/admin/users&quot;))</span>
+<span class="fc" id="L76">			   .andExpect(status().is4xxClientError());</span>
+<span class="fc" id="L77">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_all_userInfo() throws Exception
+	{
+<span class="fc" id="L83">		when(userInfoService.findAllUsers()).thenReturn(new ArrayList&lt;UserInfo&gt;());</span>
+<span class="fc" id="L84">		MvcResult mvcResult = mockMvc.perform(get(&quot;/admin/users&quot;))</span>
+<span class="fc" id="L85">								     .andExpect(status().isOk())</span>
+<span class="fc" id="L86">								     .andExpect(content().contentType(&quot;text/plain;charset=UTF-8&quot;))</span>
+<span class="fc" id="L87">								     .andReturn();</span>
+<span class="fc" id="L88">		assertEquals(JSON.toJSONString(new ArrayList&lt;UserInfo&gt;()), mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L89">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_update_userInfo() throws Exception
+	{
+<span class="fc" id="L95">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(new UserInfo());</span>
+<span class="fc" id="L96">		when(userInfoService.updateUserInfoById(Mockito.any(UserInfo.class))).thenReturn(1);</span>
+<span class="fc" id="L97">		mockMvc.perform(post(&quot;/admin/users/update/bqx&quot;)</span>
+<span class="fc" id="L98">						.param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L99">						.param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L100">						.param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L101">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L102">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L103">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+		
+<span class="fc" id="L105">		ArgumentCaptor&lt;UserInfo&gt; userCaptor = ArgumentCaptor.forClass(UserInfo.class);</span>
+<span class="fc" id="L106">		verify(userInfoService,times(1)).updateUserInfoById(userCaptor.capture());</span>
+		
+<span class="fc" id="L108">		assertNotEquals(&quot;123456&quot;, userCaptor.getValue().getPassword());</span>
+<span class="fc" id="L109">		assertEquals(&quot;1@qq.com&quot;, userCaptor.getValue().getEmail());</span>
+<span class="fc" id="L110">		assertEquals(&quot;110&quot;, userCaptor.getValue().getTelephone());</span>
+<span class="fc" id="L111">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_if_user_not_exist() throws Exception
+	{
+<span class="fc" id="L117">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(null);</span>
+<span class="fc" id="L118">		when(userInfoService.updateUserInfoById(Mockito.any(UserInfo.class))).thenReturn(1);</span>
+<span class="fc" id="L119">		mockMvc.perform(post(&quot;/admin/users/update/bqx&quot;)</span>
+<span class="fc" id="L120">						.param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L121">						.param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L122">						.param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L123">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L124">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L125">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L126">		verify(userInfoService,times(0)).updateUserInfoById(Mockito.any(UserInfo.class));</span>
+<span class="fc" id="L127">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_update_userInfo() throws Exception
+	{
+<span class="fc" id="L133">		when(userInfoService.findUserByUsername(&quot;bqx&quot;)).thenReturn(new UserInfo());</span>
+<span class="fc" id="L134">		when(userInfoService.updateUserInfoById(Mockito.any(UserInfo.class))).thenReturn(0);</span>
+<span class="fc" id="L135">		mockMvc.perform(post(&quot;/admin/users/update/bqx&quot;)</span>
+<span class="fc" id="L136">						.param(&quot;password&quot;, &quot;123456&quot;)</span>
+<span class="fc" id="L137">						.param(&quot;email&quot;, &quot;1@qq.com&quot;)</span>
+<span class="fc" id="L138">						.param(&quot;telephone&quot;, &quot;110&quot;))</span>
+<span class="fc" id="L139">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L140">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L141">		verify(userInfoService,times(1)).findUserByUsername(&quot;bqx&quot;);</span>
+<span class="fc" id="L142">		verify(userInfoService,times(1)).updateUserInfoById(Mockito.any(UserInfo.class));</span>
+<span class="fc" id="L143">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_delete_a_user() throws Exception
+	{
+<span class="fc" id="L149">		when(userInfoService.deleteUserByUsername(&quot;test&quot;)).thenReturn(1);</span>
+<span class="fc" id="L150">		mockMvc.perform(delete(&quot;/admin/users/delete/test&quot;))</span>
+<span class="fc" id="L151">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L152">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L153">		verify(userInfoService,times(1)).deleteUserByUsername(&quot;test&quot;);</span>
+<span class="fc" id="L154">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_if_fail_to_delete_a_user() throws Exception
+	{
+<span class="fc" id="L160">		when(userInfoService.deleteUserByUsername(&quot;test&quot;)).thenReturn(0);</span>
+<span class="fc" id="L161">		mockMvc.perform(delete(&quot;/admin/users/delete/test&quot;))</span>
+<span class="fc" id="L162">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L163">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L164">		verify(userInfoService,times(1)).deleteUserByUsername(&quot;test&quot;);</span>
+<span class="fc" id="L165">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_delete_a_site() throws Exception
+	{
+<span class="fc" id="L171">		when(siteService.deleteSiteById(1)).thenReturn(1);</span>
+<span class="fc" id="L172">		mockMvc.perform(delete(&quot;/admin/sites/delete/1&quot;))</span>
+<span class="fc" id="L173">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L174">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L175">		verify(siteService,times(1)).deleteSiteById(1);</span>
+<span class="fc" id="L176">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_if_fail_to_delete_a_site() throws Exception
+	{
+<span class="fc" id="L182">		when(siteService.deleteSiteById(1)).thenReturn(0);</span>
+<span class="fc" id="L183">		mockMvc.perform(delete(&quot;/admin/sites/delete/1&quot;))</span>
+<span class="fc" id="L184">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L185">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L186">		verify(siteService,times(1)).deleteSiteById(1);</span>
+<span class="fc" id="L187">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_add_a_site() throws Exception
+	{
+<span class="fc" id="L193">		when(siteService.insertSite(Mockito.any(Site.class))).thenReturn(1);</span>
+<span class="fc" id="L194">		mockMvc.perform(post(&quot;/admin/sites/add&quot;)</span>
+<span class="fc" id="L195">						.param(&quot;name&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L196">						.param(&quot;imagePath&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L197">						.param(&quot;description&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L198">						.param(&quot;location&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L199">						.param(&quot;price&quot;, &quot;10.0&quot;))</span>
+<span class="fc" id="L200">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L201">			   .andExpect(content().string(&quot;success&quot;));</span>
+		
+<span class="fc" id="L203">		ArgumentCaptor&lt;Site&gt; siteCaptor = ArgumentCaptor.forClass(Site.class);</span>
+<span class="fc" id="L204">		verify(siteService,times(1)).insertSite(siteCaptor.capture());</span>
+<span class="fc" id="L205">		assertEquals(&quot;test&quot;, siteCaptor.getValue().getName());</span>
+<span class="fc" id="L206">		assertEquals(&quot;test&quot;, siteCaptor.getValue().getDescription());</span>
+<span class="fc" id="L207">		assertEquals(&quot;test&quot;, siteCaptor.getValue().getLocation());</span>
+<span class="fc" id="L208">		assertEquals(10.0, siteCaptor.getValue().getPrice());</span>
+<span class="fc" id="L209">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_add_a_site() throws Exception
+	{
+<span class="fc" id="L215">		when(siteService.insertSite(Mockito.any(Site.class))).thenReturn(0);</span>
+<span class="fc" id="L216">		mockMvc.perform(post(&quot;/admin/sites/add&quot;)</span>
+<span class="fc" id="L217">						.param(&quot;name&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L218">						.param(&quot;imagePath&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L219">						.param(&quot;description&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L220">						.param(&quot;location&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L221">						.param(&quot;price&quot;, &quot;10.0&quot;))</span>
+<span class="fc" id="L222">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L223">			   .andExpect(content().string(&quot;fail&quot;));</span>
+		
+<span class="fc" id="L225">		verify(siteService,times(1)).insertSite(Mockito.any(Site.class));</span>
+<span class="fc" id="L226">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_update_a_site() throws Exception
+	{
+<span class="fc" id="L232">		when(siteService.findSiteById(1)).thenReturn(new Site());</span>
+<span class="fc" id="L233">		when(siteService.updateSiteById(Mockito.any(Site.class))).thenReturn(1);</span>
+<span class="fc" id="L234">		mockMvc.perform(post(&quot;/admin/sites/update/1&quot;)</span>
+<span class="fc" id="L235">						.param(&quot;name&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L236">						.param(&quot;imagePath&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L237">						.param(&quot;description&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L238">						.param(&quot;location&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L239">						.param(&quot;price&quot;, &quot;10.0&quot;))</span>
+<span class="fc" id="L240">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L241">			   .andExpect(content().string(&quot;success&quot;));</span>
+		
+<span class="fc" id="L243">		ArgumentCaptor&lt;Site&gt; siteCaptor = ArgumentCaptor.forClass(Site.class);</span>
+<span class="fc" id="L244">		verify(siteService,times(1)).findSiteById(1);</span>
+		
+<span class="fc" id="L246">		verify(siteService,times(1)).updateSiteById(siteCaptor.capture());</span>
+<span class="fc" id="L247">		assertEquals(&quot;test&quot;, siteCaptor.getValue().getName());</span>
+<span class="fc" id="L248">		assertEquals(&quot;test&quot;, siteCaptor.getValue().getDescription());</span>
+<span class="fc" id="L249">		assertEquals(&quot;test&quot;, siteCaptor.getValue().getLocation());</span>
+<span class="fc" id="L250">		assertEquals(10.0, siteCaptor.getValue().getPrice());</span>
+<span class="fc" id="L251">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_update_a_site() throws Exception
+	{
+<span class="fc" id="L257">		when(siteService.findSiteById(1)).thenReturn(new Site());</span>
+<span class="fc" id="L258">		when(siteService.updateSiteById(Mockito.any(Site.class))).thenReturn(0);</span>
+<span class="fc" id="L259">		mockMvc.perform(post(&quot;/admin/sites/update/1&quot;)</span>
+<span class="fc" id="L260">						.param(&quot;name&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L261">						.param(&quot;imagePath&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L262">						.param(&quot;description&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L263">						.param(&quot;location&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L264">						.param(&quot;price&quot;, &quot;10.0&quot;))</span>
+<span class="fc" id="L265">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L266">			   .andExpect(content().string(&quot;fail&quot;));</span>
+		
+<span class="fc" id="L268">		verify(siteService,times(1)).findSiteById(1);</span>
+		
+<span class="fc" id="L270">		verify(siteService,times(1)).updateSiteById(Mockito.any(Site.class));</span>
+<span class="fc" id="L271">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_all_orders() throws Exception
+	{
+<span class="fc" id="L277">		when(orderService.findAllOrders()).thenReturn(new ArrayList&lt;Order&gt;());</span>
+<span class="fc" id="L278">		MvcResult mvcResult = mockMvc.perform(get(&quot;/admin/orders&quot;))</span>
+<span class="fc" id="L279">								 	 .andExpect(status().isOk())</span>
+<span class="fc" id="L280">								 	 .andExpect(content().contentType(&quot;text/plain;charset=UTF-8&quot;))</span>
+<span class="fc" id="L281">								 	 .andReturn();</span>
+<span class="fc" id="L282">		assertEquals(&quot;[]&quot;, mvcResult.getResponse().getContentAsString());</span>
+<span class="fc" id="L283">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_delete_order() throws Exception
+	{
+<span class="fc" id="L289">		when(orderService.deleteOrderById(1)).thenReturn(1);</span>
+<span class="fc" id="L290">		mockMvc.perform(delete(&quot;/admin/orders/delete/1&quot;))</span>
+<span class="fc" id="L291">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L292">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L293">		verify(orderService,times(1)).deleteOrderById(1);</span>
+<span class="fc" id="L294">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_delete_a_order() throws Exception
+	{
+<span class="fc" id="L300">		when(orderService.deleteOrderById(1)).thenReturn(0);</span>
+<span class="fc" id="L301">		mockMvc.perform(delete(&quot;/admin/orders/delete/1&quot;))</span>
+<span class="fc" id="L302">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L303">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L304">		verify(orderService,times(1)).deleteOrderById(1);</span>
+<span class="fc" id="L305">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_add_news() throws Exception
+	{
+<span class="fc" id="L311">		when(newsService.insertNews(Mockito.any(News.class))).thenReturn(1);</span>
+<span class="fc" id="L312">		mockMvc.perform(post(&quot;/admin/news/add&quot;)</span>
+<span class="fc" id="L313">						.param(&quot;title&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L314">						.param(&quot;content&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L315">						.param(&quot;imagePath&quot;, &quot;&quot;)</span>
+<span class="fc" id="L316">						.param(&quot;releaseTime&quot;, &quot;2019-11-11 11:11:11&quot;))</span>
+<span class="fc" id="L317">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L318">			   .andExpect(content().string(&quot;success&quot;));</span>
+		
+<span class="fc" id="L320">		ArgumentCaptor&lt;News&gt; newsCaptor = ArgumentCaptor.forClass(News.class);</span>
+<span class="fc" id="L321">		verify(newsService,times(1)).insertNews(newsCaptor.capture());</span>
+<span class="fc" id="L322">		assertEquals(&quot;test&quot;, newsCaptor.getValue().getTitle());</span>
+<span class="fc" id="L323">		assertEquals(&quot;test&quot;, newsCaptor.getValue().getContent());</span>
+<span class="fc" id="L324">		assertEquals(&quot;&quot;, newsCaptor.getValue().getImagePath());</span>
+<span class="fc" id="L325">		assertEquals(Timestamp.valueOf(&quot;2019-11-11 11:11:11&quot;), newsCaptor.getValue().getReleaseTime());</span>
+<span class="fc" id="L326">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_add_news() throws Exception
+	{
+<span class="fc" id="L332">		when(newsService.insertNews(Mockito.any(News.class))).thenReturn(0);</span>
+<span class="fc" id="L333">		mockMvc.perform(post(&quot;/admin/news/add&quot;)</span>
+<span class="fc" id="L334">						.param(&quot;title&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L335">						.param(&quot;content&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L336">						.param(&quot;imagePath&quot;, &quot;&quot;)</span>
+<span class="fc" id="L337">						.param(&quot;releaseTime&quot;, &quot;2019-11-11 11:11:11&quot;))</span>
+<span class="fc" id="L338">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L339">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L340">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_update_news() throws Exception
+	{
+<span class="fc" id="L346">		when(newsService.findNewsById(1)).thenReturn(new News());</span>
+<span class="fc" id="L347">		when(newsService.updateNewsById(Mockito.any(News.class))).thenReturn(1);</span>
+<span class="fc" id="L348">		mockMvc.perform(post(&quot;/admin/news/update/1&quot;)</span>
+<span class="fc" id="L349">						.param(&quot;title&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L350">						.param(&quot;content&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L351">						.param(&quot;imagePath&quot;, &quot;&quot;)</span>
+<span class="fc" id="L352">						.param(&quot;releaseTime&quot;, &quot;2019-11-11 11:11:11&quot;))</span>
+<span class="fc" id="L353">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L354">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L355">		verify(newsService,times(1)).findNewsById(1);</span>
+		
+<span class="fc" id="L357">		ArgumentCaptor&lt;News&gt; newsCaptor = ArgumentCaptor.forClass(News.class);</span>
+<span class="fc" id="L358">		verify(newsService,times(1)).updateNewsById(newsCaptor.capture());</span>
+		
+<span class="fc" id="L360">		assertEquals(&quot;test&quot;, newsCaptor.getValue().getTitle());</span>
+<span class="fc" id="L361">		assertEquals(&quot;test&quot;, newsCaptor.getValue().getContent());</span>
+<span class="fc" id="L362">		assertEquals(&quot;&quot;, newsCaptor.getValue().getImagePath());</span>
+<span class="fc" id="L363">		assertEquals(Timestamp.valueOf(&quot;2019-11-11 11:11:11&quot;), newsCaptor.getValue().getReleaseTime());</span>
+<span class="fc" id="L364">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_update_news() throws Exception
+	{
+<span class="fc" id="L370">		when(newsService.findNewsById(1)).thenReturn(new News());</span>
+<span class="fc" id="L371">		when(newsService.updateNewsById(Mockito.any(News.class))).thenReturn(0);</span>
+<span class="fc" id="L372">		mockMvc.perform(post(&quot;/admin/news/update/1&quot;)</span>
+<span class="fc" id="L373">						.param(&quot;title&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L374">						.param(&quot;content&quot;, &quot;test&quot;)</span>
+<span class="fc" id="L375">						.param(&quot;imagePath&quot;, &quot;&quot;)</span>
+<span class="fc" id="L376">						.param(&quot;releaseTime&quot;, &quot;2019-11-11 11:11:11&quot;))</span>
+<span class="fc" id="L377">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L378">			   .andExpect(content().string(&quot;fail&quot;));</span>
+		
+<span class="fc" id="L380">		verify(newsService,times(1)).findNewsById(1);</span>
+<span class="fc" id="L381">		verify(newsService,times(1)).updateNewsById(Mockito.any(News.class));</span>
+<span class="fc" id="L382">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_success_when_delete_news() throws Exception
+	{
+<span class="fc" id="L388">		when(newsService.deleteNewsById(1)).thenReturn(1);</span>
+<span class="fc" id="L389">		mockMvc.perform(delete(&quot;/admin/news/delete/1&quot;))</span>
+<span class="fc" id="L390">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L391">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L392">		verify(newsService,times(1)).deleteNewsById(1);</span>
+<span class="fc" id="L393">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_delete_news() throws Exception
+	{
+<span class="fc" id="L399">		when(newsService.deleteNewsById(1)).thenReturn(0);</span>
+<span class="fc" id="L400">		mockMvc.perform(delete(&quot;/admin/news/delete/1&quot;))</span>
+<span class="fc" id="L401">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L402">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L403">		verify(newsService,times(1)).deleteNewsById(1);</span>
+<span class="fc" id="L404">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+ 	public void should_return_success_when_delete_message() throws Exception
+ 	{
+<span class="fc" id="L410">		when(messageService.deleteMessageById(1)).thenReturn(1);</span>
+<span class="fc" id="L411">		mockMvc.perform(delete(&quot;/admin/messages/delete/1&quot;))</span>
+<span class="fc" id="L412">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L413">			   .andExpect(content().string(&quot;success&quot;));</span>
+<span class="fc" id="L414">		verify(messageService,times(1)).deleteMessageById(1);</span>
+<span class="fc" id="L415"> 	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_fail_when_fail_to_delete_messages() throws Exception
+	{
+<span class="fc" id="L421">		when(messageService.deleteMessageById(1)).thenReturn(0);</span>
+<span class="fc" id="L422">		mockMvc.perform(delete(&quot;/admin/messages/delete/1&quot;))</span>
+<span class="fc" id="L423">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L424">			   .andExpect(content().string(&quot;fail&quot;));</span>
+<span class="fc" id="L425">		verify(messageService,times(1)).deleteMessageById(1);</span>
+<span class="fc" id="L426">	}</span>
+	
+	@Test
+	@WithMockUser(username = &quot;bqx&quot;,roles = {&quot;ADMIN&quot;})
+	public void should_return_required_html() throws Exception
+	{
+<span class="fc" id="L432">		mockMvc.perform(get(&quot;/admin/user_info.html&quot;))</span>
+<span class="fc" id="L433">			   .andExpect(status().isOk())</span>
+<span class="fc" id="L434">			   .andExpect(content().contentType(&quot;text/html;charset=UTF-8&quot;));</span>
+<span class="fc" id="L435">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>java (2019年12月27日 上午1:16:01)</div></body></html>
